@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use Illuminate\Support\Facades\Route;
@@ -23,5 +24,6 @@ Route::get('/', function () {
 Route::post("login/post", [LoginController::class, "posts"])->name('posts.login');
 Route::post("logout/post", [LogoutController::class, "posts"])->name('posts.logout');
 
-Route::resource('dashboard', DashboardController::class);
+Route::resource('/dashboard', DashboardController::class);
+Route::resource('/kategori', KategoriController::class);
 

@@ -29,9 +29,20 @@
 
         gtag('config', 'UA-94034622-3');
     </script>
+    <style>
+        .warning{
+            background-color: rgb(255, 146, 29);
+        }
+    </style>
 </head>
 
 <body>
+    <div class="preloader">
+        <div class="loading">
+          <img src="{{URL::to('assets/img/loader/loading.gif')}}" width="300">
+        </div>
+    </div>
+
     <div id="app">
         <div class="main-wrapper main-wrapper-1">
             <div class="navbar-bg"></div>
@@ -244,7 +255,7 @@
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                             <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
-                            <div class="d-sm-none d-lg-inline-block">Hi, Ujang Maman</div>
+                            <div class="d-sm-none d-lg-inline-block">Hi, {{ auth()->user()->username }}</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a href="features-profile.html" class="dropdown-item has-icon">
@@ -271,34 +282,32 @@
 
             </nav>
 
-
-
             <div class="main-sidebar sidebar-style-2">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
-                        <a href="index.html"><img src="{{ asset('assets/img/logo/icon-logo.png') }}" alt="logo" class="img-fluid" width="50"> BaksoQu</a>
+                        <a href="{{ route('dashboard.index') }}"><img src="{{ asset('assets/img/logo/icon-logo.png') }}" alt="logo" class="img-fluid" width="50"> BaksoQu</a>
                     </div>
                     <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="index.html"><img src="{{ asset('assets/img/logo/icon-logo.png') }}" alt="logo" class="img-fluid" width="50"></a>
+                        <a href="{{ route('dashboard.index') }}"><img src="{{ asset('assets/img/logo/icon-logo.png') }}" alt="logo" class="img-fluid" width="50"></a>
                     </div>
 
                     <ul class="sidebar-menu">
-                        <li class="active">
-                            <a class="nav-link" href="credits.html">
+                        <li class="{{ Route::is('dashboard.index') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('dashboard.index') }}">
                                 <i class="fas fa-fire"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
 
                         <li class="menu-header">Master Data</li>
-                        <li class="dropdown">
+                        <li class="{{ Route::is('kategori.index') ? 'active' : '' }} dropdown">
                             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
                                 <i class="fas fa-columns"></i>
                                 <span>Data Produk</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li>
-                                    <a class="nav-link" href="layout-default.html">Kategori Produk</a>
+                                <li class="{{ Route::is('kategori.index') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('kategori.index') }}">Kategori Produk</a>
                                 </li>
                                 <li>
                                     <a class="nav-link" href="layout-transparent.html">Produk</a>
@@ -426,6 +435,11 @@
     <script src="{{asset('assets/js/scripts.js')}}"></script>
     <script src="{{asset('assets/js/custom.js')}}"></script>
     @include('sweetalert::alert')
+    <script>
+        $(document).ready(function(){
+          $(".preloader").fadeOut();
+        })
+    </script>
 </body>
 
 </html>

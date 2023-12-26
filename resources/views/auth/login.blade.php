@@ -26,6 +26,11 @@
 </head>
 
 <body>
+    <div class="preloader">
+        <div class="loading">
+          <img src="{{URL::to('assets/img/loader/loading.gif')}}" width="300">
+        </div>
+    </div>
     <div id="app">
         <section class="section">
             <div class="container mt-5">
@@ -101,5 +106,11 @@
     </div>
 </body>
 
+<script src="{{asset('assets/modules/jquery.min.js')}}"></script>
 @include('sweetalert::alert')
+<script>
+    $(document).ready(function(){
+      $(".preloader").fadeOut();
+    })
+</script>
 </html>

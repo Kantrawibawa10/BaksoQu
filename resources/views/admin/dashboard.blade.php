@@ -1,10 +1,5 @@
 @extends('layouts.admin')
 @section('body')
-<style>
-    .warning{
-        background-color: rgb(255, 146, 29);
-    }
-</style>
 <div class="main-content">
     <section classs="section">
         <div class="row">
