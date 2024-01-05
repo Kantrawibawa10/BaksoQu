@@ -10,7 +10,7 @@
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Total Produk</h4>
+                            <h4>Total Kategori</h4>
                         </div>
                         <div class="card-body">
                             {{ $kategori->count() }}
@@ -28,7 +28,7 @@
                                     <h4>Kategori Produk</h4>
                                 </div>
                                 <div class="col-lg-4 text-right">
-                                    <a href="{{ route('kategori.create') }}" class="btn btn-warning warning text-white">Tambah <i class="fas fa-plus"></i></a>
+                                    <a href="{{ route('kategori.create') }}" class="btn btn-warning warning text-white rounded-0">Tambah Kategori <i class="fas fa-plus"></i></a>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -49,13 +49,13 @@
                                             @endphp
                                             @foreach ($kategori as $data)
                                             <tr>
-                                                <td>
+                                                <td class="text-center">
                                                     {{ $no++ }}
                                                 </td>
-                                                <td>{{ $data->kategori_produk }}</td>
+                                                <td class="text-capitalize">{{ $data->kategori_produk }}</td>
                                                 <td>
-                                                    <a href="#" class="btn btn-secondary">Detail</a>
-                                                    <a href="#" class="btn btn-secondary">Hapus</a>
+                                                    <a href="{{ route('kategori.edit', $data->id) }}" class="btn btn-info"><i class="fas fa-edit"></i> Edit</a>
+                                                    <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</a>
                                                 </td>
                                             </tr>
                                             @endforeach

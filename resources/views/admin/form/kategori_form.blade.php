@@ -10,7 +10,8 @@
             </div>
         </div>
 
-        <form action="" method="">
+        <form action="{{ route('kategori.store') }}" method="POST">
+            @csrf
             <div class="section-body">
                 <div class="card">
                     <div class="card-header">
@@ -34,13 +35,21 @@
                                             <label style="font-size: 15px; font-weight: 700;">Nama Kategori :</label>
                                         </div>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" name="kategori">
+                                            <input type="hidden" name="id" value="{{ $edit->id ?? '' }}">
+                                            <input type="hidden" name="aksi" value="{{ $title }}">
+
+                                            <input type="text" class="form-control text-capitalize @error ('kategori_produk') is-invalid @enderror" name="kategori_produk" value="{{ $edit->kategori_produk ?? old('kategori') }}" placeholder="Nama Kategori">
+                                            @error('kategori_produk')
+                                                <small class="form-text text-danger">
+                                                    {{ $message }}
+                                                </small>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-lg-12">
+                            <div class="col-lg-12 ">
                                 <div class="offset-md-4">
                                     <div class="form-group mb-0">
                                         <button type="submit" class="btn btn-primary mr-1"><i class="fas fa-check-double mr-1"></i> Simpan</button>

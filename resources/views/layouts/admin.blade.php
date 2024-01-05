@@ -200,12 +200,7 @@
                             <a href="features-profile.html" class="dropdown-item has-icon">
                                 <i class="far fa-user"></i> Profile
                             </a>
-                            <a href="features-activities.html" class="dropdown-item has-icon">
-                                <i class="fas fa-bolt"></i> Activities
-                            </a>
-                            <a href="features-settings.html" class="dropdown-item has-icon">
-                                <i class="fas fa-cog"></i> Settings
-                            </a>
+
                             <div class="dropdown-divider"></div>
 
                             {{-- tombol logout --}}
@@ -239,13 +234,13 @@
                         </li>
 
                         <li class="menu-header">Master Data</li>
-                        <li class="{{ Route::is('kategori.index', 'kategori.create', 'produk.index') ? 'active' : '' }} dropdown">
+                        <li class="{{ Route::is('kategori.index', 'kategori.create', 'kategori.edit', 'produk.index') ? 'active' : '' }} dropdown">
                             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
                                 <i class="fas fa-columns"></i>
                                 <span>Data Produk</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="{{ Route::is('kategori.index', 'kategori.create') ? 'active' : '' }}">
+                                <li class="{{ Route::is('kategori.index', 'kategori.create', 'kategori.edit') ? 'active' : '' }}">
                                     <a class="nav-link" href="{{ route('kategori.index') }}">Kategori Produk</a>
                                 </li>
                                 <li class="{{ Route::is('produk.index') ? 'active' : '' }}">

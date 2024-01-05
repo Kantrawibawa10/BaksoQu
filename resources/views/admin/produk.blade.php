@@ -23,9 +23,13 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h4>Data Produk</h4>
-                                <a href="#" class="btn btn-warning warning text-white">Tambah</a>
+                            <div class="card-header row">
+                                <div class="col-lg-8">
+                                    <h4>Master Produk</h4>
+                                </div>
+                                <div class="col-lg-4 text-right">
+                                    <a href="#" class="btn btn-warning warning text-white rounded-0">Tambah Produk <i class="fas fa-plus"></i></a>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -45,7 +49,7 @@
                                             @endphp
                                             @foreach ($produk as $data)
                                             <tr>
-                                                <td>
+                                                <td class="text-center">
                                                     {{ $no++ }}
                                                 </td>
                                                 <td>{{ $data->nama_produk }}</td>
