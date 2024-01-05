@@ -32,7 +32,7 @@ class KategoriController extends Controller
             'title' => 'Tambah Kategori',
         ];
 
-        return view('admin.form.kategori_form', $data);
+        return view('admin.form.form_kategori', $data);
     }
 
 
@@ -74,7 +74,7 @@ class KategoriController extends Controller
             'edit'  =>  Kategori::find($id)
         ];
 
-        return view('admin.form.kategori_form', $data);
+        return view('admin.form.form_kategori', $data);
     }
 
     public function destroy($id)

@@ -23,6 +23,7 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/components.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- Start GA -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
@@ -36,6 +37,134 @@
     <style>
         .warning{
             background-color: rgb(255, 146, 29);
+        }
+
+        .image-preview {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        #previewImage {
+            max-width: 100%;
+            max-height: 200px;
+        }
+
+        .upload-container {
+            position: relative;
+        }
+
+        .thumbnail-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            /* border-radius: 50%; */
+            border: 1px solid rgb(194, 194, 194);
+        }
+
+        .thumbnail-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumbnail-container:hover .overlay {
+            opacity: 1;
+        }
+
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .profile-image-container:hover .overlay {
+            opacity: 1;
+        }
+
+        .upload-button {
+            padding: 100px 100px;
+            margin: 5px 0 0 0;
+            /* background-color: #3897f0; */
+            border: none;
+            border-radius: 5px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .upload-button .icon {
+            margin-right: 8px;
+        }
+
+        #upload-input {
+            display: none;
+        }
+
+        #drop-area {
+            position: relative;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        #upload-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        #preview-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #preview {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background-color: #fff;
+        }
+        .preloader .loading {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            font: 14px arial;
         }
     </style>
 </head>
@@ -234,7 +363,7 @@
                         </li>
 
                         <li class="menu-header">Master Data</li>
-                        <li class="{{ Route::is('kategori.index', 'kategori.create', 'kategori.edit', 'produk.index') ? 'active' : '' }} dropdown">
+                        <li class="{{ Route::is('kategori.index', 'kategori.create', 'kategori.edit', 'produk.index', 'produk.create') ? 'active' : '' }} dropdown">
                             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
                                 <i class="fas fa-columns"></i>
                                 <span>Data Produk</span>
@@ -243,8 +372,8 @@
                                 <li class="{{ Route::is('kategori.index', 'kategori.create', 'kategori.edit') ? 'active' : '' }}">
                                     <a class="nav-link" href="{{ route('kategori.index') }}">Kategori Produk</a>
                                 </li>
-                                <li class="{{ Route::is('produk.index') ? 'active' : '' }}">
-                                    <a class="nav-link" href="{{ route('produk.index') }}">Produk</a>
+                                <li class="{{ Route::is('produk.index', 'produk.create') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('produk.index') }}">Master Produk</a>
                                 </li>
                             </ul>
                         </li>
@@ -358,6 +487,7 @@
     <script src="{{asset('assets/modules/datatables/datatables.min.js')}}"></script>
     <script src="{{asset('assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js')}}"></script>
     <script src="{{asset('assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <!-- Page Specific JS File -->
     <script src="{{asset('assets/js/page/index.js')}}"></script>
@@ -371,8 +501,11 @@
     @yield('scripts')
     <script>
         $(document).ready(function(){
-          $(".preloader").fadeOut();
+            $(".preloader").fadeOut();
         })
+        $(document).ready(function() {
+            $('.select').select2();
+        });
     </script>
 </body>
 

@@ -31,14 +31,14 @@
                             <div class="col-lg-12">
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-lg-4 m-auto">
-                                            <label style="font-size: 15px; font-weight: 700;">Nama Kategori :</label>
+                                        <div class="col-lg-4 mt-3">
+                                            <label style="font-size: 15px; font-weight: 500;">Nama Kategori :</label>
                                         </div>
-                                        <div class="col-lg-8">
+                                        <div class="col-lg-5">
                                             <input type="hidden" name="id" value="{{ $edit->id ?? '' }}">
                                             <input type="hidden" name="aksi" value="{{ $title }}">
 
-                                            <input type="text" class="form-control text-capitalize @error ('kategori_produk') is-invalid @enderror" name="kategori_produk" value="{{ $edit->kategori_produk ?? old('kategori') }}" placeholder="Nama Kategori">
+                                            <input type="text" class="form-control text-capitalize @error ('kategori_produk') is-invalid @enderror" name="kategori_produk" value="{{ $edit->kategori_produk ?? old('kategori_produk') }}" placeholder="Nama Kategori">
                                             @error('kategori_produk')
                                                 <small class="form-text text-danger">
                                                     {{ $message }}

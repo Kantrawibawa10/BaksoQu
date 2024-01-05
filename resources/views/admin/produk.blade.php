@@ -6,7 +6,7 @@
             <div class="col-lg-4 col-md-4 col-sm-12">
                 <div class="card card-statistic-2">
                     <div class="card-icon warning">
-                        <i class="fas fa-filter"></i>
+                        <i class="fas fa-utensils"></i>
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
@@ -28,7 +28,7 @@
                                     <h4>Master Produk</h4>
                                 </div>
                                 <div class="col-lg-4 text-right">
-                                    <a href="#" class="btn btn-warning warning text-white rounded-0">Tambah Produk <i class="fas fa-plus"></i></a>
+                                    <a href="{{ route('produk.create') }}" class="btn btn-warning warning text-white rounded-0">Tambah Produk <i class="fas fa-plus"></i></a>
                                 </div>
                             </div>
                             <div class="card-body">
