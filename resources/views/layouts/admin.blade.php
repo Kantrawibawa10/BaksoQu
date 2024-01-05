@@ -368,6 +368,7 @@
     <script src="{{asset('assets/js/page/modules-datatables.js')}}"></script>
 
     @include('sweetalert::alert')
+    @yield('scripts')
     <script>
         $(document).ready(function(){
           $(".preloader").fadeOut();

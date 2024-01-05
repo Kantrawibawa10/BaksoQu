@@ -16,11 +16,6 @@ class KategoriController extends Controller
         $this->middleware("auth");
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function index()
     {
@@ -31,11 +26,6 @@ class KategoriController extends Controller
         return view('admin.kategori', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $data = [
@@ -45,12 +35,7 @@ class KategoriController extends Controller
         return view('admin.form.kategori_form', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -61,7 +46,7 @@ class KategoriController extends Controller
         ]);
 
         if ($validator->fails()) {
-            Alert::warning('Oopss', $request->aksi.' gagal dilakukan');
+            toast($request->aksi.' gagal dilakukan','danger');
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
@@ -71,7 +56,7 @@ class KategoriController extends Controller
 
         if($posts)
         {
-            Alert::success('Berhasil', $request->aksi.' berhasil dilakukan');
+            toast($request->aksi.' berhasil dilakukan','success');
             if($request->aksi == "Tambah Kategori")
             {
                 return redirect()->route('kategori.index');
@@ -81,12 +66,7 @@ class KategoriController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         $data = [
@@ -99,6 +79,15 @@ class KategoriController extends Controller
 
     public function destroy($id)
     {
-        //
+        $kategori = Kategori::find($id);
+
+        if (!$kategori) {
+            abort(404); // Tambahkan ini untuk menangani kasus kategori tidak ditemukan
+        }
+
+        $kategori->delete();
+        toast('Hapus kategori berhasil dilakukan!', 'success');
+
+        return redirect()->route('kategori.index'); // Gantilah dengan rute yang sesuai
     }
 }
