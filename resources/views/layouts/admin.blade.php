@@ -16,10 +16,14 @@
     <link rel="stylesheet" href="{{asset('assets/modules/summernote/summernote-bs4.css')}}">
     <link rel="stylesheet" href="{{asset('assets/modules/owlcarousel2/dist/assets/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/modules/owlcarousel2/dist/assets/owl.theme.default.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/modules/datatables/datatables.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css')}}">
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('assets/css/components.css')}}">
+
     <!-- Start GA -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
     <script>
@@ -45,82 +49,17 @@
 
     <div id="app">
         <div class="main-wrapper main-wrapper-1">
-            <div class="navbar-bg"></div>
+            <div class="navbar-bg">
+                <div style="background-color: rgba(0, 0, 0, 0.666); background-position: center; object-fit:fill; background-size: cover; z-index: 0; width: 100%;
+                height: 130px; object-fit: cover; position: absolute; opacity: 30%;"></div>
+                <img src="{{ asset('assets/img/bg/bg-admin.jpg') }}" style="background-position: center; object-fit:fill; background-size: cover; z-index: 0; width: 100%;
+                height: 130px; object-fit: cover; " class="img-fluid">
+            </div>
+
             <nav class="navbar navbar-expand-lg main-navbar">
-                <form class="form-inline mr-auto">
-                    <ul class="navbar-nav mr-3">
-                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i
-                                    class="fas fa-bars"></i></a></li>
-                        <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i
-                                    class="fas fa-search"></i></a></li>
-                    </ul>
-                    <div class="search-element">
-                        <input class="form-control" type="search" placeholder="Search" aria-label="Search"
-                            data-width="250">
-                        <button class="btn" type="submit"><i class="fas fa-search"></i></button>
-                        <div class="search-backdrop"></div>
-                        <div class="search-result">
-                            <div class="search-header">
-                                Histories
-                            </div>
-                            <div class="search-item">
-                                <a href="#">How to hack NASA using CSS</a>
-                                <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                            </div>
-                            <div class="search-item">
-                                <a href="#">Kodinger.com</a>
-                                <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                            </div>
-                            <div class="search-item">
-                                <a href="#">#Stisla</a>
-                                <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                            </div>
-                            <div class="search-header">
-                                Result
-                            </div>
-                            <div class="search-item">
-                                <a href="#">
-                                    <img class="mr-3 rounded" width="30" src="assets/img/products/product-3-50.png"
-                                        alt="product">
-                                    oPhone S9 Limited Edition
-                                </a>
-                            </div>
-                            <div class="search-item">
-                                <a href="#">
-                                    <img class="mr-3 rounded" width="30" src="assets/img/products/product-2-50.png"
-                                        alt="product">
-                                    Drone X2 New Gen-7
-                                </a>
-                            </div>
-                            <div class="search-item">
-                                <a href="#">
-                                    <img class="mr-3 rounded" width="30" src="assets/img/products/product-1-50.png"
-                                        alt="product">
-                                    Headphone Blitz
-                                </a>
-                            </div>
-                            <div class="search-header">
-                                Projects
-                            </div>
-                            <div class="search-item">
-                                <a href="#">
-                                    <div class="search-icon bg-danger text-white mr-3">
-                                        <i class="fas fa-code"></i>
-                                    </div>
-                                    Stisla Admin Template
-                                </a>
-                            </div>
-                            <div class="search-item">
-                                <a href="#">
-                                    <div class="search-icon bg-primary text-white mr-3">
-                                        <i class="fas fa-laptop"></i>
-                                    </div>
-                                    Create a new Homepage Design
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                <div class="form-inline mr-auto">
+                    <div class="text-white"><i class="fas fa-calendar"></i> {{ date('l, d F Y') }}</div>
+                </div>
 
                 <ul class="navbar-nav navbar-right">
                     <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
@@ -254,7 +193,7 @@
 
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+                            <img alt="image" src="{{asset('assets/img/avatar/avatar-1.png')}}" class="rounded-circle mr-1">
                             <div class="d-sm-none d-lg-inline-block">Hi, {{ auth()->user()->username }}</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
@@ -300,17 +239,17 @@
                         </li>
 
                         <li class="menu-header">Master Data</li>
-                        <li class="{{ Route::is('kategori.index') ? 'active' : '' }} dropdown">
+                        <li class="{{ Route::is('kategori.index', 'kategori.create', 'produk.index') ? 'active' : '' }} dropdown">
                             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
                                 <i class="fas fa-columns"></i>
                                 <span>Data Produk</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="{{ Route::is('kategori.index') ? 'active' : '' }}">
+                                <li class="{{ Route::is('kategori.index', 'kategori.create') ? 'active' : '' }}">
                                     <a class="nav-link" href="{{ route('kategori.index') }}">Kategori Produk</a>
                                 </li>
-                                <li>
-                                    <a class="nav-link" href="layout-transparent.html">Produk</a>
+                                <li class="{{ Route::is('produk.index') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('produk.index') }}">Produk</a>
                                 </li>
                             </ul>
                         </li>
@@ -390,12 +329,6 @@
                         </li>
 
                     </ul>
-
-                    <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
-                        <a href="#" class="btn btn-primary btn-lg btn-block btn-icon-split">
-                            <i class="fas fa-rocket"></i> Documentation
-                        </a>
-                    </div>
                 </aside>
             </div>
 
@@ -427,6 +360,9 @@
     <script src="{{asset('assets/modules/owlcarousel2/dist/owl.carousel.min.js')}}"></script>
     <script src="{{asset('assets/modules/summernote/summernote-bs4.js')}}"></script>
     <script src="{{asset('assets/modules/chocolat/dist/js/jquery.chocolat.min.js')}}"></script>
+    <script src="{{asset('assets/modules/datatables/datatables.min.js')}}"></script>
+    <script src="{{asset('assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js')}}"></script>
 
     <!-- Page Specific JS File -->
     <script src="{{asset('assets/js/page/index.js')}}"></script>
@@ -434,6 +370,8 @@
     <!-- Template JS File -->
     <script src="{{asset('assets/js/scripts.js')}}"></script>
     <script src="{{asset('assets/js/custom.js')}}"></script>
+    <script src="{{asset('assets/js/page/modules-datatables.js')}}"></script>
+
     @include('sweetalert::alert')
     <script>
         $(document).ready(function(){

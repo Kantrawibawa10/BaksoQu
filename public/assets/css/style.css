@@ -1534,13 +1534,15 @@ h6 .badge {
   top: 0;
   left: 0;
   width: 100%;
-  height: 150px;
-  /* background-color: rgb(255, 146, 29); */
-  background-image: url('../../assets/img/bg/bg-admin.jpg');
+  height: 130px;
+  opacity: 70%;
+  background-color: black;
+  /* background-image: url('../../assets/img/bg/bg-admin.jpg'); */
   background-position: center;
   object-fit:fill;
   background-size: cover;
-  z-index: -1; }
+  z-index: 0;
+}
 
 .navbar {
   align-items: center; }

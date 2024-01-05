@@ -13,7 +13,7 @@
                             <h4>Total Produk</h4>
                         </div>
                         <div class="card-body">
-                            {{ $kategori->count() }}
+                            {{ $produk->count() }}
                         </div>
                     </div>
                 </div>
@@ -23,13 +23,9 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-header row">
-                                <div class="col-lg-8">
-                                    <h4>Kategori Produk</h4>
-                                </div>
-                                <div class="col-lg-4 text-right">
-                                    <a href="{{ route('kategori.create') }}" class="btn btn-warning warning text-white">Tambah <i class="fas fa-plus"></i></a>
-                                </div>
+                            <div class="card-header">
+                                <h4>Data Produk</h4>
+                                <a href="#" class="btn btn-warning warning text-white">Tambah</a>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -47,12 +43,12 @@
                                             @php
                                                 $no = 1;
                                             @endphp
-                                            @foreach ($kategori as $data)
+                                            @foreach ($produk as $data)
                                             <tr>
                                                 <td>
                                                     {{ $no++ }}
                                                 </td>
-                                                <td>{{ $data->kategori_produk }}</td>
+                                                <td>{{ $data->nama_produk }}</td>
                                                 <td>
                                                     <a href="#" class="btn btn-secondary">Detail</a>
                                                     <a href="#" class="btn btn-secondary">Hapus</a>

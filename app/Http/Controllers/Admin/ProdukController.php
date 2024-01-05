@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+use App\Models\Products;
+
+class ProdukController extends Controller
 {
     public function _construct()
     {
@@ -17,10 +19,13 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     public function index()
     {
-        return view('admin.dashboard');
+        $data = [
+            'produk' => Products::all(),
+        ];
+
+        return view('admin.produk', $data);
     }
 
     /**
