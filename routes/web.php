@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\PelangganController;
 use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\Admin\TransaksiController;
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,7 @@ Route::middleware('auth')->group(function(){
     Route::resource('/kategori', KategoriController::class);
     Route::resource('/produk', ProdukController::class);
     Route::resource('/pelanggan', PelangganController::class);
+    Route::resource('/users', UsersController::class);
 
     //transaksi
     Route::get("/transaksi/terbaru", [TransaksiController::class, "terbaru"])->name("transaksi.terbaru");

@@ -52,6 +52,7 @@ class ProdukController extends Controller
             'photo.mimes'               => 'Masukan Gambar sesuai format: jpeg, bmp, png, gif!',
             'photo.max'                 => 'Ukuran Gambar maksimal 2000 KB!',
             'photo.required'            => 'Gambar tidak boleh kosong',
+            'nama_produk.required'      => 'Nama produk tidak boleh kosong',
             'kategori_produk.required'  => 'Kategori produk tidak boleh kosong',
             'harga_produk.required'     => 'Harga produk tidak boleh kosong',
             'ppn.required'              => 'PPN tidak boleh kosong',

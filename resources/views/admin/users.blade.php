@@ -1,31 +1,26 @@
 @extends('layouts.admin')
 @section('body')
 <div class="main-content">
-    <section classs="section">
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-12">
-                <div class="card card-statistic-2">
-                    <div class="card-icon warning">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="card-wrap">
-                        <div class="card-header">
-                            <h4>Transaksi Selesai</h4>
-                        </div>
-                        <div class="card-body">
-                            {{ $selesai->count() }}
-                        </div>
-                    </div>
-                </div>
+    <section class="section">
+        <div class="section-header">
+            <h1>Data Users</h1>
+            <div class="section-header-breadcrumb">
+                <div class="breadcrumb-item active"><a href="#">Data users</a></div>
+                <div class="breadcrumb-item">Users</div>
             </div>
+        </div>
 
+        <div class="row">
             <div class="col-lg-12">
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header row">
                                 <div class="col-lg-8">
-                                    <h4>Dalam Proses</h4>
+                                    <h4>Users Manager</h4>
+                                </div>
+                                <div class="col-lg-4 text-right">
+                                    <a href="{{ route('users.create') }}" class="btn btn-warning warning text-white rounded-0">Tambah Users <i class="fas fa-plus"></i></a>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -34,12 +29,10 @@
                                         <thead>
                                             <tr>
                                                 <th class="px-5 col-1">No</th>
-                                                <th>ID Transaksi</th>
-                                                <th>Nama Pelanggan</th>
-                                                <th>Nama Produk</th>
-                                                <th>Jumlah</th>
-                                                <th>Tagihan</th>
-                                                <th>Status</th>
+                                                <th>Nama</th>
+                                                <th>Telepon</th>
+                                                <th>Alamat</th>
+                                                <th>Role</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -47,25 +40,29 @@
                                             @php
                                                 $no = 1;
                                             @endphp
-                                            @foreach ($selesai as $data)
+                                            @foreach ($users as $data)
                                             <tr>
                                                 <td class="px-5 col-1">
                                                     {{ $no++ }}
                                                 </td>
-                                                <td>{{ $data->id_transaksi }}</td>
                                                 <td>{{ $data->nama }}</td>
-                                                <td>{{ $data->nama_produk }}</td>
-                                                <td>{{ $data->qty }} pcs</td>
-                                                <td>Rp. {{ number_format($data->harga_produk) }}/pcs</td>
-                                                <td><span class="badge" style="background: rgb(0, 106, 255);">Proses</span></td>
+                                                <td>{{ $data->no_telepon }}</td>
+                                                <td>{!! $data->alamat !!}</td>
+                                                <td>{{ $data->role }}</td>
                                                 <td>
                                                     <div class="tooltip-container">
-                                                        <a href="{{ route('produk.edit', $data->id) }}" class="p-0s" style="color: blue; font-size: 25px;"><ion-icon name="create-outline"></ion-icon></a>
+                                                        <a href="{{ route('users.edit', $data->id) }}" class="p-0" style="color: rgb(0, 72, 255); font-size: 25px;"><ion-icon name="create-outline"></ion-icon></a>
                                                         <span class="tooltip-text">Edit</span>
                                                     </div>
+
+                                                    <div class="tooltip-container">
+                                                        <a href="{{ route('users.show', $data->id) }}" class="p-0" style="color: rgb(0, 136, 255); font-size: 25px;"><ion-icon name="eye-outline"></ion-icon></a>
+                                                        <span class="tooltip-text">Detail</span>
+                                                    </div>
+
                                                     <div class="tooltip-container">
                                                         <form id="deleteForm"
-                                                            action="{{ route('produk.destroy', $data->id) }}"
+                                                            action="{{ route('users.destroy', $data->id) }}"
                                                             method="POST" style="display: inline;">
                                                             @csrf
                                                             @method('DELETE')

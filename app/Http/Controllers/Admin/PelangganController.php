@@ -44,7 +44,7 @@ class PelangganController extends Controller
             {
 
             }else{
-                $filePath = public_path('drive/produk' . '/' . $cek->photo);
+                $filePath = public_path('drive/users' . '/' . $cek->photo);
                 if (file_exists($filePath)) {
                     unlink($filePath);
                 } else {
@@ -52,10 +52,10 @@ class PelangganController extends Controller
                 }
             }
             User::where('id', $id)->delete();
-            Alert::success('Berhasil', 'Katalog bakso berhasil dihapus');
+            Alert::success('Berhasil', 'Pelanggan berhasil dihapus');
             return redirect()->back();
         }else{
-            Alert::error('Gagal', 'Katalog bakso gagal dihapus');
+            Alert::error('Gagal', 'Pelanggan gagal dihapus');
             return redirect()->back();
         }
     }
