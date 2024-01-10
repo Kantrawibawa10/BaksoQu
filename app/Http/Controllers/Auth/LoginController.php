@@ -30,8 +30,8 @@ class LoginController extends Controller
             'username' => 'required|exists:users,username',
             'password' => 'required',
         ], [
-            'required' => 'kolom :attribute harus diisi.',
-            'exists' => ':attriburte tidak cocok dengan data kami.',
+            'required' => 'Username tidak boleh kosong.',
+            'exists' => 'Username tidak ditemukan',
         ]);
 
         $validator->after(function ($validator) use ($request) {

@@ -13,7 +13,7 @@
                             <h4>Total Orders</h4>
                         </div>
                         <div class="card-body">
-                            59
+                            {{ $order->count() }}
                         </div>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                             <h4>Penghasilan</h4>
                         </div>
                         <div class="card-body">
-                            $187,13
+                            Rp. {{ number_format($penghasilan->sum('harga_produk')) }}
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                             <h4>Penjualan</h4>
                         </div>
                         <div class="card-body">
-                            4,732
+                            {{ $penghasilan->count() }}
                         </div>
                     </div>
                 </div>
@@ -53,20 +53,18 @@
 
 
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <h4>Invoices</h4>
-                        <div class="card-header-action">
-                            <a href="#" class="btn btn-danger">View More <i class="fas fa-chevron-right"></i></a>
-                        </div>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive table-invoice">
                             <table class="table table-striped" style="font-size: 12px;">
                                 <tr>
                                     <th>Invoice ID</th>
-                                    <th>Customer</th>
+                                    <th>Nama Pelanggan</th>
+                                    <th>Pesanan</th>
                                     <th>Status</th>
                                     <th>Due Date</th>
                                     <th>Action</th>
@@ -74,50 +72,17 @@
                                 <tr>
                                     <td><a href="#">INV-87239</a></td>
                                     <td class="font-weight-600">Kusnadi</td>
+                                    <td class="font-weight-600">Bakso Ayam</td>
                                     <td>
-                                        <div class="badge badge-warning">Unpaid</div>
+                                        <div class="badge badge-success">Paid</div>
                                     </td>
-                                    <td>July 19, 2018</td>
+                                    <td>20 Desember 2023</td>
                                     <td>
                                         <a href="#" class="btn btn-warning">Detail</a>
                                     </td>
                                 </tr>
                             </table>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-                <div class="card gradient-bottom">
-                    <div class="card-header">
-                        <h4>Top 5 Products</h4>
-                    </div>
-                    <div class="card-body mb-3" id="top-5-scroll">
-                        <ul class="list-unstyled list-unstyled-border">
-                            <li class="media">
-                                <img class="mr-3 rounded" width="55" src="assets/img/products/product-3-50.png"
-                                    alt="product">
-                                <div class="media-body">
-                                    <div class="float-right">
-                                        <div class="font-weight-600 text-muted text-small">86 Sales</div>
-                                    </div>
-                                    <div class="media-title">oPhone S9 Limited</div>
-                                    <div class="mt-1">
-                                        <div class="budget-price">
-                                            <div class="budget-price-square bg-warning" data-width="64%">
-                                            </div>
-                                            <div class="budget-price-label">$68,714</div>
-                                        </div>
-                                        <div class="budget-price">
-                                            <div class="budget-price-square bg-danger" data-width="43%">
-                                            </div>
-                                            <div class="budget-price-label">$38,700</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
                     </div>
                 </div>
             </div>

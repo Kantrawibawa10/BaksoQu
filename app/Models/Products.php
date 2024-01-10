@@ -13,10 +13,14 @@ class Products extends Model
 
     protected $fillable = [
         'id',
+        'photo',
         'kode_produk',
+        'kategori_produk',
         'nama_produk',
         'harga_produk',
         'ppn',
         'status',
+        'stock',
+        'deskripsi',
     ];
 }

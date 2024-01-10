@@ -38,3 +38,7 @@ $("#table-2").dataTable({
     { "sortable": false, "targets": [0,2,3] }
   ]
 });
+
+$(document).ready(function() {
+    $('#dataTable').DataTable();
+});

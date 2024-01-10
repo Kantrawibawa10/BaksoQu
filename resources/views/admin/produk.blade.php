@@ -33,13 +33,16 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-striped" id="table-1">
+                                    <table class="table table-striped" id="dataTable">
                                         <thead>
                                             <tr>
-                                                <th class="text-center">
-                                                    #
-                                                </th>
-                                                <th>Nama Kategori</th>
+                                                <th class="px-5 col-1">No</th>
+                                                <th>Kode Produk</th>
+                                                <th>Nama Produk</th>
+                                                <th>Kategori</th>
+                                                <th>Stok</th>
+                                                <th>Harga</th>
+                                                <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -48,14 +51,36 @@
                                                 $no = 1;
                                             @endphp
                                             @foreach ($produk as $data)
+                                            @php
+                                                $badgeClass = $data->status == 'tersedia' ? 'badge-success' : 'badge-dark';
+                                                $badgeText = $data->status == 'tersedia' ? 'Tersedia' : 'Tidak Tersedia';
+                                            @endphp
                                             <tr>
-                                                <td class="text-center">
+                                                <td class="px-5 col-1">
                                                     {{ $no++ }}
                                                 </td>
+                                                <td>{{ $data->kode_produk }}</td>
                                                 <td>{{ $data->nama_produk }}</td>
+                                                <td>{{ $data->kategori_produk }}</td>
+                                                <td>{{ $data->stock }} pcs</td>
+                                                <td>Rp. {{ number_format($data->stock) }}/pcs</td>
+                                                <td><span class="badge {{ $badgeClass }}">{{ $badgeText }}</span></td>
                                                 <td>
-                                                    <a href="#" class="btn btn-secondary">Detail</a>
-                                                    <a href="#" class="btn btn-secondary">Hapus</a>
+                                                    <div class="tooltip-container">
+                                                        <a href="{{ route('produk.edit', $data->id) }}" class="p-0s" style="color: blue; font-size: 25px;"><ion-icon name="create-outline"></ion-icon></a>
+                                                        <span class="tooltip-text">Edit</span>
+                                                    </div>
+                                                    <div class="tooltip-container">
+                                                        <form id="deleteForm"
+                                                            action="{{ route('produk.destroy', $data->id) }}"
+                                                            method="POST" style="display: inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+
+                                                            <button type="button" class="p-0 delete-button" style="outline: none; color: red; border: none; background: transparent; font-size: 25px; cursor: pointer;"><ion-icon name="trash-outline"></ion-icon></button>
+                                                            <span class="tooltip-text">Hapus</span>
+                                                        </form>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -70,4 +95,34 @@
         </div>
     </section>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                const deleteForm = document.getElementById('deleteForm');
+                const deleteUrl = deleteForm.getAttribute('action');
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: 'Data Anda akan dihapus. Tekan tombol Ya, Hapus untuk melanjutkan',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Hapus!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Hapus formulir jika SweetAlert dikonfirmasi
+                        deleteForm.style.display = 'none';
+
+                        // Lakukan penghapusan dengan mengirimkan formulir
+                        deleteForm.submit();
+                    }
+                });
+            });
+        });
+</script>
 @endsection

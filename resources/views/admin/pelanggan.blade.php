@@ -7,14 +7,14 @@
             <div class="col-lg-4 col-md-4 col-sm-12">
                 <div class="card card-statistic-2">
                     <div class="card-icon warning">
-                        <i class="fas fa-filter"></i>
+                        <i class="fas fa-users"></i>
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Total Kategori</h4>
+                            <h4>Total Pelanggan</h4>
                         </div>
                         <div class="card-body">
-                            {{ $kategori->count() }}
+                            {{ $pelanggan->count() }}
                         </div>
                     </div>
                 </div>
@@ -26,12 +26,7 @@
                         <div class="card">
                             <div class="card-header row">
                                 <div class="col-lg-8">
-                                    <h4>Kategori Produk</h4>
-                                </div>
-                                <div class="col-lg-4 text-right">
-                                    <a href="{{ route('kategori.create') }}"
-                                        class="btn btn-warning warning text-white rounded-0">Tambah Kategori <i
-                                            class="fas fa-plus"></i></a>
+                                    <h4>Register Pelanggan</h4>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -40,7 +35,9 @@
                                         <thead>
                                             <tr>
                                                 <th class="px-5 col-1">No</th>
-                                                <th>Nama Kategori</th>
+                                                <th>Nama Pelanggan</th>
+                                                <th>Telepon</th>
+                                                <th>Alamat</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -48,20 +45,22 @@
                                             @php
                                                 $no = 1;
                                             @endphp
-                                            @foreach ($kategori as $data)
+                                            @foreach ($pelanggan as $data)
                                             <tr>
                                                 <td class="px-5 col-1">
                                                     {{ $no++ }}
                                                 </td>
-                                                <td class="text-capitalize">{{ $data->kategori_produk }}</td>
+                                                <td>{{ $data->nama }}</td>
+                                                <td class="text-capitalize">{{ $data->no_telepon }}</td>
+                                                <td class="text-capitalize">{{ $data->alamat }}</td>
                                                 <td>
                                                     <div class="tooltip-container">
-                                                        <a href="{{ route('kategori.edit', $data->id) }}" class="p-0s" style="color: blue; font-size: 25px;"><ion-icon name="create-outline"></ion-icon></a>
-                                                        <span class="tooltip-text">Edit</span>
+                                                        <a href="{{ route('pelanggan.show', $data->id) }}" class="p-0s" style="color: rgb(0, 136, 255); font-size: 25px;"><ion-icon name="eye-outline"></ion-icon></a>
+                                                        <span class="tooltip-text">Detail</span>
                                                     </div>
                                                     <div class="tooltip-container">
                                                         <form id="deleteForm"
-                                                            action="{{ route('kategori.destroy', $data->id) }}"
+                                                            action="{{ route('pelanggan.destroy', $data->id) }}"
                                                             method="POST" style="display: inline;">
                                                             @csrf
                                                             @method('DELETE')

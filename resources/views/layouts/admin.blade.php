@@ -166,6 +166,46 @@
             transform: translate(-50%,-50%);
             font: 14px arial;
         }
+
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            width: 100px; /* Set max-width to a suitable value */
+            white-space: normal; /* Allow text to wrap */
+            overflow-wrap: break-word; /* Allow long words to break and wrap */
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            align-items: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position the tooltip above the text */
+            left: 50%;
+            transform: translateX(-50%); /* Center the tooltip above the text */
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip-container:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Responsiveness */
+        @media only screen and (max-width: 600px) {
+            .tooltip-text {
+                width: 100%;
+                margin-left: 0;
+                left: 0;
+                bottom: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -191,135 +231,6 @@
                 </div>
 
                 <ul class="navbar-nav navbar-right">
-                    <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
-                            class="nav-link nav-link-lg message-toggle beep"><i class="far fa-envelope"></i></a>
-                        <div class="dropdown-menu dropdown-list dropdown-menu-right">
-                            <div class="dropdown-header">Messages
-                                <div class="float-right">
-                                    <a href="#">Mark All As Read</a>
-                                </div>
-                            </div>
-                            <div class="dropdown-list-content dropdown-list-message">
-                                <a href="#" class="dropdown-item dropdown-item-unread">
-                                    <div class="dropdown-item-avatar">
-                                        <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle">
-                                        <div class="is-online"></div>
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        <b>Kusnaedi</b>
-                                        <p>Hello, Bro!</p>
-                                        <div class="time">10 Hours Ago</div>
-                                    </div>
-                                </a>
-                                <a href="#" class="dropdown-item dropdown-item-unread">
-                                    <div class="dropdown-item-avatar">
-                                        <img alt="image" src="assets/img/avatar/avatar-2.png" class="rounded-circle">
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        <b>Dedik Sugiharto</b>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-                                        <div class="time">12 Hours Ago</div>
-                                    </div>
-                                </a>
-                                <a href="#" class="dropdown-item dropdown-item-unread">
-                                    <div class="dropdown-item-avatar">
-                                        <img alt="image" src="assets/img/avatar/avatar-3.png" class="rounded-circle">
-                                        <div class="is-online"></div>
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        <b>Agung Ardiansyah</b>
-                                        <p>Sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                        <div class="time">12 Hours Ago</div>
-                                    </div>
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    <div class="dropdown-item-avatar">
-                                        <img alt="image" src="assets/img/avatar/avatar-4.png" class="rounded-circle">
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        <b>Ardian Rahardiansyah</b>
-                                        <p>Duis aute irure dolor in reprehenderit in voluptate velit ess</p>
-                                        <div class="time">16 Hours Ago</div>
-                                    </div>
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    <div class="dropdown-item-avatar">
-                                        <img alt="image" src="assets/img/avatar/avatar-5.png" class="rounded-circle">
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        <b>Alfa Zulkarnain</b>
-                                        <p>Exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
-                                        <div class="time">Yesterday</div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="dropdown-footer text-center">
-                                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
-                            class="nav-link notification-toggle nav-link-lg beep"><i class="far fa-bell"></i></a>
-                        <div class="dropdown-menu dropdown-list dropdown-menu-right">
-                            <div class="dropdown-header">Notifications
-                                <div class="float-right">
-                                    <a href="#">Mark All As Read</a>
-                                </div>
-                            </div>
-                            <div class="dropdown-list-content dropdown-list-icons">
-                                <a href="#" class="dropdown-item dropdown-item-unread">
-                                    <div class="dropdown-item-icon bg-primary text-white">
-                                        <i class="fas fa-code"></i>
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        Template update is available now!
-                                        <div class="time text-primary">2 Min Ago</div>
-                                    </div>
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    <div class="dropdown-item-icon bg-info text-white">
-                                        <i class="far fa-user"></i>
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        <b>You</b> and <b>Dedik Sugiharto</b> are now friends
-                                        <div class="time">10 Hours Ago</div>
-                                    </div>
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    <div class="dropdown-item-icon bg-success text-white">
-                                        <i class="fas fa-check"></i>
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        <b>Kusnaedi</b> has moved task <b>Fix bug header</b> to <b>Done</b>
-                                        <div class="time">12 Hours Ago</div>
-                                    </div>
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    <div class="dropdown-item-icon bg-danger text-white">
-                                        <i class="fas fa-exclamation-triangle"></i>
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        Low disk space. Let's clean it!
-                                        <div class="time">17 Hours Ago</div>
-                                    </div>
-                                </a>
-                                <a href="#" class="dropdown-item">
-                                    <div class="dropdown-item-icon bg-info text-white">
-                                        <i class="fas fa-bell"></i>
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        Welcome to Stisla template!
-                                        <div class="time">Yesterday</div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="dropdown-footer text-center">
-                                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
-                            </div>
-                        </div>
-                    </li>
-
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                             <img alt="image" src="{{asset('assets/img/avatar/avatar-1.png')}}" class="rounded-circle mr-1">
@@ -363,7 +274,7 @@
                         </li>
 
                         <li class="menu-header">Master Data</li>
-                        <li class="{{ Route::is('kategori.index', 'kategori.create', 'kategori.edit', 'produk.index', 'produk.create') ? 'active' : '' }} dropdown">
+                        <li class="{{ Route::is('kategori.index', 'kategori.create', 'kategori.edit', 'produk.index', 'produk.create', 'produk.edit') ? 'active' : '' }} dropdown">
                             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
                                 <i class="fas fa-columns"></i>
                                 <span>Data Produk</span>
@@ -372,14 +283,14 @@
                                 <li class="{{ Route::is('kategori.index', 'kategori.create', 'kategori.edit') ? 'active' : '' }}">
                                     <a class="nav-link" href="{{ route('kategori.index') }}">Kategori Produk</a>
                                 </li>
-                                <li class="{{ Route::is('produk.index', 'produk.create') ? 'active' : '' }}">
+                                <li class="{{ Route::is('produk.index', 'produk.create', 'produk.edit') ? 'active' : '' }}">
                                     <a class="nav-link" href="{{ route('produk.index') }}">Master Produk</a>
                                 </li>
                             </ul>
                         </li>
 
-                        <li class="">
-                            <a class="nav-link" href="credits.html">
+                        <li class="{{ Route::is('pelanggan.index', 'pelanggan.show') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('pelanggan.index') }}">
                                 <i class="fas fa-user-tag"></i>
                                 <span>Data Pelanggan</span>
                             </a>
@@ -387,20 +298,20 @@
 
                         <li class="menu-header">Transaksi</li>
 
-                        <li class="dropdown">
+                        <li class="{{ Route::is('transaksi.terbaru', 'transaksi.proses', 'transaksi.selesai') ? 'active' : '' }} dropdown">
                             <a href="#" class="nav-link has-dropdown">
                                 <i class="fas fa-th-large"></i>
                                 <span>Pesanan Pelanggan</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li>
-                                    <a class="nav-link beep beep-sidebar" href="components-avatar.html">Terbaru</a>
+                                <li class="{{ Route::is('transaksi.terbaru') ? 'active' : '' }}">
+                                    <a class="nav-link beep beep-sidebar" href="{{ route('transaksi.terbaru') }}">Terbaru</a>
                                 </li>
-                                <li>
-                                    <a class="nav-link beep beep-sidebar" href="components-avatar.html">Dalam Proses</a>
+                                <li class="{{ Route::is('transaksi.proses') ? 'active' : '' }}">
+                                    <a class="nav-link beep beep-sidebar" href="{{ route('transaksi.proses') }}">Dalam Proses</a>
                                 </li>
-                                <li>
-                                    <a class="nav-link beep beep-sidebar" href="components-avatar.html">Pesanan Selesai</a>
+                                <li class="{{ Route::is('transaksi.selesai') ? 'active' : '' }}">
+                                    <a class="nav-link beep beep-sidebar" href="{{ route('transaksi.selesai') }}">Pesanan Selesai</a>
                                 </li>
                             </ul>
                         </li>
@@ -461,8 +372,7 @@
 
             <footer class="main-footer">
                 <div class="footer-left">
-                    Copyright &copy; 2018 <div class="bullet"></div> Design By <a href="https://nauval.in/">Muhamad
-                        Nauval Azhar</a>
+                    Copyright &copy; 2023 BaksoQu</a>
                 </div>
                 <div class="footer-right"></div>
             </footer>
@@ -491,11 +401,14 @@
 
     <!-- Page Specific JS File -->
     <script src="{{asset('assets/js/page/index.js')}}"></script>
+    <script src="{{asset('assets/js/page/modules-datatables.js')}}"></script>
 
     <!-- Template JS File -->
     <script src="{{asset('assets/js/scripts.js')}}"></script>
     <script src="{{asset('assets/js/custom.js')}}"></script>
-    <script src="{{asset('assets/js/page/modules-datatables.js')}}"></script>
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
     @include('sweetalert::alert')
     @yield('scripts')
@@ -506,6 +419,16 @@
         $(document).ready(function() {
             $('.select').select2();
         });
+
+        CKEDITOR.replace('editor', {
+            toolbar: [
+                ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+                ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+                ['Undo', 'Redo', '-', 'RemoveFormat']
+            ],
+            removePlugins: 'image, imagecaption, imagestyle, imagetoolbar, imageupload, mediaembed, link, linkimage, linkpaste'
+        });
+
     </script>
 </body>
 

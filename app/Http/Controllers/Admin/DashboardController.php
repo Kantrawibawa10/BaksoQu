@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Transactions;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -14,6 +15,12 @@ class DashboardController extends Controller
 
     public function index()
     {
-        return view('admin.dashboard');
+        $data = [
+            'order'         => Transactions::where('status', 'proses')->get(),
+            'penghasilan'   => Transactions::where('status', 'selesai')->get(),
+
+        ];
+
+        return view('admin.dashboard', $data);
     }
 }

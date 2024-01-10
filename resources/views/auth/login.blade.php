@@ -22,6 +22,24 @@
 
         gtag('config', 'UA-94034622-3');
     </script>
+    <style>
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background-color: #fff;
+        }
+        .preloader .loading {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            font: 14px arial;
+        }
+    </style>
     <!-- /END GA -->
 </head>
 
@@ -52,7 +70,7 @@
                                     @csrf
                                     <div class="form-group">
                                         <label for="username">Username</label>
-                                        <input id="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" tabindex="1" required autofocus>
+                                        <input id="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" tabindex="1" value="{{ old('username') }}" required autofocus>
                                         @error('username')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -94,7 +112,7 @@
                             </div>
                         </div>
                         <div class="mt-5 text-muted text-center">
-                            Don't have an account? <a href="auth-register.html">Create One</a>
+                            Belum punya akun? <a href="auth-register.html">Register aja</a>
                         </div>
                         <div class="simple-footer">
                             Copyright &copy; BaksoQu 2023
