@@ -348,19 +348,11 @@
 
 
                         <li class="menu-header">Setting</li>
-                        <li class="{{ Route::is('users.index', 'users.create', 'users.edit', 'users.show') ? 'active' : '' }} dropdown">
-                            <a href="#" class="nav-link has-dropdown">
+                        <li class="{{ Route::is('users.index', 'users.create', 'users.edit', 'users.show') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('users.index') }}">
                                 <i class="far fa-user"></i>
-                                <span>Account User</span>
+                                <span>Data Users</span>
                             </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="auth-forgot-password.html">Role Users</a>
-                                </li>
-                                <li class="{{ Route::is('users.index', 'users.create', 'users.edit', 'users.show') ? 'active' : '' }}">
-                                    <a href="{{ route('users.index') }}">Data Users</a>
-                                </li>
-                            </ul>
                         </li>
 
                     </ul>

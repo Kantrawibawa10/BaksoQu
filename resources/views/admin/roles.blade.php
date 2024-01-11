@@ -18,11 +18,11 @@
                         <div class="card">
                             <div class="card-header row">
                                 <div class="col-lg-8">
-                                    <h4>Kategori Produk</h4>
+                                    <h4>Roles Users</h4>
                                 </div>
                                 <div class="col-lg-4 text-right">
-                                    <a href="{{ route('kategori.create') }}"
-                                        class="btn btn-warning warning text-white rounded-0">Tambah Kategori <i
+                                    <a href="{{ route('roles.create') }}"
+                                        class="btn btn-warning warning text-white rounded-0">Tambah Roles <i
                                             class="fas fa-plus"></i></a>
                                 </div>
                             </div>
@@ -32,7 +32,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="px-5 col-1">No</th>
-                                                <th>Nama Kategori</th>
+                                                <th>Roles</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>

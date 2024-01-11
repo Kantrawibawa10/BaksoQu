@@ -23,8 +23,7 @@ class LoginController extends Controller
 
     public function posts(Request $request)
     {
-        $cek = User::join('roles', 'roles.roles', '=', 'users.role')
-        ->where('username', '=', $request->username)->first();
+        $cek = User::where('username', '=', $request->username)->first();
 
         $validator = Validator::make($request->all(), [
             'username' => 'required|exists:users,username',
@@ -56,12 +55,12 @@ class LoginController extends Controller
 
         } elseif ($cek) {
             toast('Horee berhasil login, selamat datang di baksoqu','success');
-            if($cek->nama_role == 'Pelanggan'){
+            if($cek->role == 'Pelanggan'){
                 toast('Horee berhasil login, selamat datang di baksoqu','success');
-                return redirect()->route('home');
+                return redirect('/');
             }else{
                 toast('Horee berhasil login, selamat datang di portal admin baksoqu','success');
-                return redirect('dashboard');
+                return redirect('/dashboard');
             }
 
         } else {
