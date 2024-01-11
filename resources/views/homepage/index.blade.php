@@ -58,17 +58,7 @@
                 </div>
 
                 <div class="row" id="liveSearchResults">
-                    {{-- Include the live search results partial view --}}
                     @include('data.produk')
-                </div>
-
-
-                <div class="d-flex justify-content-start" id="pagination-container" data-current-page="{{ $produk->currentPage() }}">
-                    @if ($produk instanceof \Illuminate\Pagination\LengthAwarePaginator && $produk->lastPage() > 1)
-                        {{ $produk->links('pagination::bootstrap-4') }}
-                    @else
-                        <!-- Hide pagination if not needed -->
-                    @endif
                 </div>
             </div>
         </div>
@@ -77,100 +67,72 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function () {
-        var timeoutId;
+$(document).ready(function () {
+    var timeoutId;
+    var page = 1; // Inisialisasi halaman awal
+    var lastScrollTop = 0;
 
-        // Event handlers for search and pagination
-        $('.category-checkbox, #liveSearchInput, #priceRange, #minPrice, #maxPrice').on('input', function () {
-            triggerSearch();
-        });
-
-        // Event handler for pagination links
-        $('#pagination-container').on('click', '.pagination a', function (e) {
-            e.preventDefault();
-            var page = $(this).attr('href').split('page=')[1];
-            loadPaginatedData(page);
-        });
-
-        // Function to handle AJAX request for search and pagination
-        function searchWithFilterHarga(searchTerm, selectedCategories, minPrice, maxPrice, page = 1) {
-            $.ajax({
-                url: '/search',
-                method: 'GET',
-                data: {
-                    search: searchTerm,
-                    categories: selectedCategories,
-                    minPrice: minPrice,
-                    maxPrice: maxPrice,
-                    page: page
-                },
-                success: function (response) {
-                    $('#liveSearchResults').html(response);
-
-                    // Update the current page in pagination container
-                    $('#pagination-container').data('current-page', page);
-
-                    // Hide pagination if there are no results
-                    if (response.trim() === "") {
-                        $('#pagination-container').hide();
-                    } else {
-                        $('#pagination-container').show();
-                    }
-                },
-                error: function (error) {
-                    console.error('Error fetching search results:', error);
-                }
-            });
-        }
-
-        // Helper function to get selected categories
-        function getSelectedCategories() {
-            var selectedCategories = [];
-            $('.category-checkbox:checked').each(function () {
-                var category = $(this).data('category');
-                selectedCategories.push(category);
-            });
-
-            return selectedCategories;
-        }
-
-        // Function to handle pagination without search
-        function loadPaginatedData(page) {
-            var searchTerm = $('#liveSearchInput').val().trim();
-            var selectedCategories = getSelectedCategories();
-            var minPrice = $('#minPrice').val();
-            var maxPrice = $('#maxPrice').val();
-
-            searchWithFilterHarga(searchTerm, selectedCategories, minPrice, maxPrice, page);
-        }
-
-        // Function to trigger search after user stops typing
-        function triggerSearch() {
-            var searchTerm = $('#liveSearchInput').val().trim();
-            var selectedCategories = getSelectedCategories();
-            var minPrice = $('#minPrice').val();
-            var maxPrice = $('#maxPrice').val();
-
-            // Clear the timeout if the user continues typing
-            clearTimeout(timeoutId);
-
-            // Set a timeout to wait for the user to stop typing
-            timeoutId = setTimeout(function () {
-                // Execute AJAX request for search
-                searchWithFilterHarga(searchTerm, selectedCategories, minPrice, maxPrice);
-            }, 300); // Adjust the timeout duration as needed
-        }
-
-        // Update input values when slider values change
-        $('#priceRange').on('input', function () {
-            var currentValue = $(this).val();
-            $('#minPrice').val(currentValue);
-        });
-
-        // Initialize pagination container state on document load
-        $('#pagination-container').data('current-page', {{ $produk->currentPage() }});
+    $('.category-checkbox, #liveSearchInput, #priceRange, #minPrice, #maxPrice').on('input', function () {
+        page = 1; // Set halaman kembali ke 1 saat filter berubah
+        triggerSearch(page);
     });
+
+    // Fungsi untuk memuat data dengan filter harga dan halaman
+    function searchWithFilterHarga(searchTerm, selectedCategories, minPrice, maxPrice, page) {
+        $.ajax({
+            url: '/search',
+            method: 'GET',
+            data: {
+                search: searchTerm,
+                categories: selectedCategories,
+                minPrice: minPrice,
+                maxPrice: maxPrice,
+                page: page,
+            },
+            success: function (response) {
+                if (page === 1) {
+                    $('#liveSearchResults').html(response);
+                } else {
+                    $('#liveSearchResults').append(response);
+                }
+            },
+            error: function (error) {
+                console.error('Error fetching search results:', error);
+            }
+        });
+    }
+
+    // Fungsi untuk memicu pencarian dengan filter yang ada
+    function triggerSearch(page) {
+        var searchTerm = $('#liveSearchInput').val().trim();
+        var selectedCategories = getSelectedCategories();
+        var minPrice = $('#minPrice').val();
+        var maxPrice = $('#maxPrice').val();
+
+        clearTimeout(timeoutId);
+
+        timeoutId = setTimeout(function () {
+            searchWithFilterHarga(searchTerm, selectedCategories, minPrice, maxPrice, page);
+        }, 300);
+    }
+
+    // Event listener untuk perubahan pada elemen dengan ID 'priceRange'
+    $('#priceRange').on('input', function () {
+        var currentValue = $(this).val();
+        $('#minPrice').val(currentValue);
+    });
+
+    // Fungsi untuk mendapatkan kategori yang dipilih
+    function getSelectedCategories() {
+        var selectedCategories = [];
+        $('.category-checkbox:checked').each(function () {
+            var category = $(this).data('category');
+            selectedCategories.push(category);
+        });
+
+        return selectedCategories;
+    }
+});
+
 </script>
-
-
 @endsection

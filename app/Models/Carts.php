@@ -16,6 +16,7 @@ class Carts extends Model
         'id_cart',
         'id_produk',
         'nama_produk',
+        'qty',
         'harga',
         'id_pelanggan',
         'nama_pelanggan',

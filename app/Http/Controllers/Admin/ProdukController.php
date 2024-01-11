@@ -40,7 +40,7 @@ class ProdukController extends Controller
     {
         // dd($request->all());
         $validator = Validator::make($request->all(), [
-            'photo'             => ($request->aksi == 'Update Produk' ? 'nullable' : 'required|file|mimes:jpg,jpeg,bmp,png,gif|max:2000'),
+            'photo'             => ($request->aksi == 'Update Produk' ? 'nullable' : 'required|file|max:2000'),
             'nama_produk'       => 'required',
             'kategori_produk'   => 'required',
             'harga_produk'      => 'required',
@@ -49,7 +49,6 @@ class ProdukController extends Controller
             'stock'             => 'required',
         ], [
             'photo.file'                => 'Masukan Gambar sesuai format: jpeg, bmp, png, gif!',
-            'photo.mimes'               => 'Masukan Gambar sesuai format: jpeg, bmp, png, gif!',
             'photo.max'                 => 'Ukuran Gambar maksimal 2000 KB!',
             'photo.required'            => 'Gambar tidak boleh kosong',
             'nama_produk.required'      => 'Nama produk tidak boleh kosong',

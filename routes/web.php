@@ -46,3 +46,10 @@ Route::middleware('auth')->group(function(){
 Route::get("/", [IndexController::class, "index"])->name('home');
 Route::get("/kontak-kami", [IndexController::class, "kontak"])->name('kontak');
 Route::get('/search', [IndexController::class, 'search'])->name('search');
+
+Route::middleware('auth')->group(function(){
+    Route::resource('/produk-kami', IndexController::class);
+
+    //keranjang
+    Route::post("cart/post", [IndexController::class, "postCart"])->name('posts.cart');
+});
