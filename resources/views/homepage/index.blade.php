@@ -133,6 +133,5 @@ $(document).ready(function () {
         return selectedCategories;
     }
 });
-
 </script>
 @endsection

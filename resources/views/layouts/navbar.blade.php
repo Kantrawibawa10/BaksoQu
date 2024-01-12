@@ -55,7 +55,7 @@
                 <span class="mx-2"></span>
 
                 <li class="nav-item py-2" style="position: relative;">
-                    <a href="{{-- route('keranjang', auth()->user()->id) --}}" class="cart-container">
+                    <a href="{{ route('cart.index') }}" class="cart-container">
                         <i class="bi bi-cart-fill icon-keranjang">
                             <span class="notif-keranjang">{{ $keranjang ?? 0 }}</span>
                         </i>

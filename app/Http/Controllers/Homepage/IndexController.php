@@ -84,7 +84,7 @@ class IndexController extends Controller
     public function postCart(Request $request)
     {
         $id = $request['id'] ? $request['id'] : Products::max('id') + 1;
-        $idCart = 'chart' . str_pad($id, 2, '0', STR_PAD_LEFT) . sprintf('%03d', rand(1, 999));
+        $idCart = 'C' . str_pad($id, 2, '0', STR_PAD_LEFT) . sprintf('%03d', rand(1, 999));
 
         $produk = Products::where('kode_produk', $request->kode_produk)->first();
         $harga  = ceil($produk->harga_produk * $produk->ppn/100) + $produk->harga_produk * $request->qty;

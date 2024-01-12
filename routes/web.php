@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\TransaksiController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\IndexController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,7 +50,9 @@ Route::get('/search', [IndexController::class, 'search'])->name('search');
 
 Route::middleware('auth')->group(function(){
     Route::resource('/produk-kami', IndexController::class);
+    Route::resource('/cart', CartController::class);
 
     //keranjang
     Route::post("cart/post", [IndexController::class, "postCart"])->name('posts.cart');
+    Route::post("stock/post/{id}", [CartController::class, "stock"])->name('stock.post');
 });
