@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\IndexController;
+use App\Http\Controllers\Homepage\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,10 +50,15 @@ Route::get("/kontak-kami", [IndexController::class, "kontak"])->name('kontak');
 Route::get('/search', [IndexController::class, 'search'])->name('search');
 
 Route::middleware('auth')->group(function(){
+    Route::resource('/myprofile', ProfileController::class);
     Route::resource('/produk-kami', IndexController::class);
     Route::resource('/cart', CartController::class);
+    Route::resource('/transaksi', CartController::class);
 
     //keranjang
     Route::post("cart/post", [IndexController::class, "postCart"])->name('posts.cart');
     Route::post("stock/post/{id}", [CartController::class, "stock"])->name('stock.post');
 });
+
+
+Route::get('/total-keranjang', [CartController::class, 'getTotal'])->name('cart.total');

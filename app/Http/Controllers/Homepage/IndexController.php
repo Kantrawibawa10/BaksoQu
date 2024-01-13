@@ -83,7 +83,7 @@ class IndexController extends Controller
 
     public function postCart(Request $request)
     {
-        $id = $request['id'] ? $request['id'] : Products::max('id') + 1;
+        $id = $request['id'] ? $request['id'] : Carts::max('id') + 1;
         $idCart = 'C' . str_pad($id, 2, '0', STR_PAD_LEFT) . sprintf('%03d', rand(1, 999));
 
         $produk = Products::where('kode_produk', $request->kode_produk)->first();
@@ -91,7 +91,7 @@ class IndexController extends Controller
 
         $post = Carts::create([
             'id'              => $id,
-            'id_cart'        => $idCart,
+            'id_cart'         => $idCart,
             'id_produk'       => $produk->kode_produk,
             'nama_produk'     => $produk->nama_produk,
             'qty'             => $request->qty,

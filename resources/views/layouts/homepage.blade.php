@@ -146,12 +146,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js">
     </script>
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
     <script>
         $(document).ready(function(){
           $(".preloader").fadeOut();
         })
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        CKEDITOR.replace('editor', {
+            toolbar: [
+                ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+                ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+                ['Undo', 'Redo', '-', 'RemoveFormat']
+            ],
+            removePlugins: 'image, imagecaption, imagestyle, imagetoolbar, imageupload, mediaembed, link, linkimage, linkpaste'
+        });
+    </script>
     @include('sweetalert::alert')
 </body>
 </html>

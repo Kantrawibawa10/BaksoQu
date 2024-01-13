@@ -57,7 +57,7 @@
                     </form>
                 </div>
 
-                <div class="row" id="liveSearchResults">
+                <div class="row g-2" id="liveSearchResults">
                     @include('data.produk')
                 </div>
             </div>

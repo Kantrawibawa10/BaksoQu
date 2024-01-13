@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Homepage;
 use App\Http\Controllers\Controller;
 use App\Models\Products;
 use Illuminate\Http\Request;
+use Response;
+use Auth;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Carts;
 
@@ -16,11 +19,19 @@ class CartController extends Controller
             'cart' => Carts::join('products', 'products.kode_produk', '=', 'carts.id_produk')
             ->where('id_pelanggan', auth()->user()->id)
             ->orderBy('id', 'DESC')
-            ->select('carts.*', 'products.kategori_produk', 'products.photo')
-            ->get()
+            ->select('carts.*', 'products.kategori_produk', 'products.photo', 'harga_produk')
+            ->get(),
         ];
 
         return view('homepage.cart', $data);
+    }
+
+    public function getTotal()
+    {
+        $total = DB::table('carts')
+        ->where('id_pelanggan', auth()->user()->id)
+        ->sum('harga');
+        return response()->json(['total' => $total]);
     }
 
     public function store(Request $request)

@@ -12,7 +12,7 @@
 
     /* Handle */
     ::-webkit-scrollbar-thumb {
-        background: #888;
+        background: #ffffff;
     }
 
     /* Handle on hover */
@@ -24,7 +24,7 @@
 
     body {
         font-family: 'Manrope', sans-serif;
-        background: #eee;
+        background: #ffffff;
     }
 
     .size span {
@@ -64,7 +64,7 @@
         font-size: 11px;
     }
 </style>
-<div class="container mt-3 mb-5">
+<div class="container mt-5 mb-5">
     <div class="row justify-content-center align-items-center">
         <div class="col-md-8">
             <div class="p-2">
@@ -76,15 +76,19 @@
 
             @if(isset($cart) && $cart->count() > 0)
                 @foreach ($cart as $data)
-                <div class="d-flex flex-row flex-wrap justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded">
-                    <div class="mr-1 mb-3 mt-3"><img class="rounded" src="{{ asset('drive/produk/'. $data->photo) }}" width="100"></div>
-                    <div class="d-flex flex-column align-items-center product-details mb-3 mt-3">
-                        <span class="font-weight-bold text-capitalize">{{ $data->nama_produk }}</span>
-                        <div class="size">
+                <div class="d-flex flex-row flex-wrap justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded shadow">
+                    <div class="mr-1 mb-3 mt-3 col-lg-1 col-md-2 col-6">
+                        <img class="rounded" src="{{ asset('drive/produk/'. $data->photo) }}" style="width: 100%; height: 60px; object-fit: cover;">
+                    </div>
+
+                    <div class="d-flex flex-column align-items-center product-details mb-3 mt-3 col-lg-4 col-md-4 col-12">
+                        <span class="font-weight-bold text-center text-capitalize">{{ $data->nama_produk }}</span>
+                        <div class="size text-center">
                             <span class="text-grey">Kategori:</span><span class="font-weight-bold">&nbsp; {{ $data->kategori_produk }}</span>
                         </div>
                     </div>
-                    <div class="d-flex flex-row align-items-center qty mb-3 mt-3">
+
+                    <div class="d-flex flex-row align-items-center qty mb-3 mt-3 col-lg-3 col-md-4 col-12">
                         <form id="form_minus_{{ $data->id }}" action="{{ route('stock.post', $data->id) }}" method="POST">
                             @csrf
                             <button type="button" class="btn btn-sm px-1 pt-0 pb-0 btn-outline-dark" onclick="updateQuantity('{{ $data->id }}', 'min')">
@@ -105,10 +109,12 @@
                             </button>
                         </form>
                     </div>
-                    <div class="mb-0">
-                        <h5 class="text-grey">Rp. {{ number_format($data->harga) }}</h5>
+
+                    <div class="mb-2 col-lg-3 col-md-2 col-12">
+                        <h6 class="text-dark m-auto">Rp. {{ number_format($data->harga_produk) }}<span style="color: gray; font-size: 12px;">/pcs</span></h6>
                     </div>
-                    <div class="d-flex align-items-center">
+
+                    <div class="d-flex align-items-center mb-2 col-lg-1 col-md-2 col-12">
                         <form id="delKeranjang" action="{{ route('cart.destroy', $data->id) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
@@ -119,7 +125,7 @@
                 @endforeach
             @else
                 <div class="col-lg-12 col-md-12">
-                    <div class="card border-0">
+                    <div class="card border-0 shadow">
                         <div class="card-body d-flex justify-content-center">
                             <div>
                                 <img src="{{ URL::to('assets/img/loader/cart.gif') }}" width="200">
@@ -130,13 +136,13 @@
                 </div>
             @endif
 
-            <div class="d-flex flex-row justify-content-between align-items-center mt-3 p-3 bg-white rounded">
+            <div class="d-flex flex-row justify-content-between align-items-center mt-3 p-3 bg-white rounded shadow">
                 <span class="text-secondary text-start">Total Transaksi:</span>
-                <span class="text-secondary text-end">Rp. {{ number_format($cart->sum('harga')) }}</span>
+                <span id="refreshText" class="text-secondary text-end">Rp. {{ number_format($cart->sum('harga')) }}</span>
             </div>
 
             @if(isset($cart) && $cart->count() > 0)
-                <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded">
+                <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded shadow">
                     <button class="btn btn-warning btn-block btn-lg ml-2 pay-button" type="button">Proceed to Pay</button>
                 </div>
             @endif
@@ -158,16 +164,45 @@
             type: 'POST',
             url: '{{ route('stock.post', ':id') }}'.replace(':id', id),
             data: formData,
-            success: function (data) {
-                // Update the quantity display on success
-                $('#qty_' + id).text(data.qty);
+            success: function(data) {
+                if (data.deleted) {
+                    // Jika produk dihapus, sembunyikan elemen produk
+                    $('#product_' + id).hide('fast', function() {
+                        $(this).remove();
+                        updateTotal();
+                    });
+                } else {
+                    // Jika tidak dihapus, lanjutkan dengan pembaruan total
+                    $('#qty_' + id).text(data.qty);
+                    updateTotal();
+                }
             },
-            error: function (data) {
-                console.log('Error:', data);
+            error: function(error) {
+                console.log('Error:', error);
             }
         });
     }
+
+
+    function refreshElement() {
+        var elemenTeks = document.getElementById("refreshText");
+        fetch('/total-keranjang')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response from server:', data);
+
+                var formattedTotal = Number(data.total).toLocaleString('id-ID', { maximumFractionDigits: 2 });
+                formattedTotal = formattedTotal.replace(/\.00$/, '');
+                elemenTeks.innerHTML = "Rp. " + formattedTotal;
+            })
+            .catch(error => {
+                console.error('Error fetching total:', error);
+            });
+    }
+
+    setInterval(refreshElement, 1000);
 </script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>

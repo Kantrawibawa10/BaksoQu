@@ -49,7 +49,7 @@
                             <a href="{{ route('produk-kami.show', $data->id) }}" style="text-decoration: none; color: black;">
                                 <img src="{{ asset('drive/produk/'. $data->photo) }}" class="card-img-top"
                                     alt="{{ $data->nama_produk ?? 'tidak ada' }}"
-                                    style="background-size: cover; background-position: center; height: 140px; max-width: 100%; object-fit: content;">
+                                    style="background-size: cover; background-position: center; height: 150px; max-width: 100%; object-fit: cover;">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12">
@@ -61,7 +61,7 @@
                                             <small class="float-right">Tersedia : {{ $data->stock ?? 'tidak ada' }}</small><br>
                                         </div>
                                     </div>
-                                    <div class="col-12 d-flex justify-content-between mb-3 mt-3">
+                                    <div class="col-12 d-flex justify-content-between mb-2 mt-3">
                                         <h6 class="text-start"><b>Rp. {{ number_format($total ?? 'Rp. 0') }}</b></h6>
                                     </div>
                                 </div>

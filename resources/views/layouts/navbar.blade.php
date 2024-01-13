@@ -12,8 +12,15 @@
         <div class="collapse navbar-collapse" id="navbarmenu">
             <div class="navbar-nav">
                 <a class="nav-link {{ Route::is('home', 'produk.category', 'produk.search', 'produk-kami.show') ? 'text-warning' : '' }}" href="{{ route('home') }}">Produk Kami</a>
-                <a class="nav-link {{ Route::is('kontak') ? 'text-warning' : '' }}" href="{{ route('kontak') }}">Kontak
-                    Kami</a>
+                @auth
+                    @php
+                        $transaksi = App\Models\Transactions::where('id_users', auth()->user()->id)->count();
+                    @endphp
+                    <a class="nav-link cart-container me-3 {{ Route::is('transaksi.index') ? 'text-warning' : '' }}" href="{{ route('transaksi.index') }}">
+                        Transaksi Anda<span class="notif-keranjang">{{ $transaksi ?? 0 }}</span>
+                    </a>
+                @endauth
+                <a class="nav-link {{ Route::is('kontak') ? 'text-warning' : '' }}" href="{{ route('kontak') }}">Kontak Kami</a>
             </div>
 
             <ul class="navbar-nav ms-auto ml-auto">
@@ -41,7 +48,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="usersmenu">
                         <li>
-                            <a class="dropdown-item" href="{{-- route('myprofile') --}}"><i class="bi bi-person-circle"></i> Profile</a>
+                            <a class="dropdown-item" href="{{ route('myprofile.index') }}"><i class="bi bi-person-circle"></i> Profile</a>
                             <a class="dropdown-item text-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="bi bi-box-arrow-right"></i> {{ __('Logout') }}
                             </a>
