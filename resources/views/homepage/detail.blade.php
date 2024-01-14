@@ -127,27 +127,31 @@
     <div class="modal-dialog modal-dialog-centered modal-md">
       <div class="modal-content">
         <div class="modal-body">
-            <div class="d-flex justify-content-between">
-                <div class="row g-3">
-                    <div class="col-md-5">
-                        <img class="card-img-top mb-5 mb-md-0" src="{{ asset('drive/produk/'. $detail->photo) }}" width="100" height="100" style="object-fit: cover;" alt="..." />
-                    </div>
-                    <div class="col-md-7">
-                        <div>
-                            <br>
-                            <br>
+            <form action="{{ route('posts.transaksi') }}" method="POST">
+                @csrf
+                <div class="d-flex justify-content-between">
+                    <div class="row g-3">
+                        <div class="col-md-5">
+                            <img class="card-img-top mb-5 mb-md-0" src="{{ asset('drive/produk/'. $detail->photo) }}" width="100" height="100" style="object-fit: cover;" alt="..." />
                         </div>
-                        <h6 class="mb-0">Rp. {{ number_format($detail_total) }}</h6>
-                        <label class="text-secondary" style="font-size: 14px;">Stok {{ $detail->stock }}</label>
+                        <div class="col-md-7">
+                            <div>
+                                <br>
+                                <br>
+                            </div>
+                            <h6 class="mb-0">Rp. {{ number_format($detail_total) }}</h6>
+                            <label class="text-secondary" style="font-size: 14px;">Stok {{ $detail->stock }}</label>
+                        </div>
                     </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="d-flex justify-content-between mt-3 align-items-center mb-3">
-                <span>Jumlah</span>
-                <input class="form-control form-control-sm text-center" id="inputQuantity" type="number" min="1" value="1" style="max-width: 5rem" />
-            </div>
-            <button type="button" class="btn btn-success col-12">Beli Sekarang</button>
+                <div class="d-flex justify-content-between mt-3 align-items-center mb-3">
+                    <span>Jumlah</span>
+                    <input class="form-control form-control-sm text-center" id="inputQuantity" type="number" min="1" value="1" style="max-width: 5rem" name="qty" />
+                    <input type="hidden" name="kode_produk" value="{{ $detail->kode_produk }}">
+                </div>
+                <button type="submit" class="btn btn-success col-12">Beli Sekarang</button>
+            </form>
         </div>
       </div>
     </div>

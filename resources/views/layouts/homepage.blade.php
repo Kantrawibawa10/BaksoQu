@@ -7,6 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets/img/logo/icon-logo.png') }}" />
+    <link rel="stylesheet" href="{{asset('assets/modules/datatables/datatables.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css')}}">
     <title>BaksoQu</title>
     <style>
         .preloader {
@@ -164,5 +167,11 @@
         });
     </script>
     @include('sweetalert::alert')
+
+
+    <script src="{{asset('assets/modules/datatables/datatables.min.js')}}"></script>
+    <script src="{{asset('assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js')}}"></script>
+    <script src="{{asset('assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js')}}"></script>
+    <script src="{{asset('assets/js/page/modules-datatables.js')}}"></script>
 </body>
 </html>

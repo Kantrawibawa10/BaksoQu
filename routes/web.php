@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\IndexController;
 use App\Http\Controllers\Homepage\ProfileController;
+use App\Http\Controllers\Homepage\TransaksiUsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,11 +54,15 @@ Route::middleware('auth')->group(function(){
     Route::resource('/myprofile', ProfileController::class);
     Route::resource('/produk-kami', IndexController::class);
     Route::resource('/cart', CartController::class);
-    Route::resource('/transaksi', CartController::class);
+    Route::resource('/transaksi', TransaksiUsersController::class);
 
     //keranjang
     Route::post("cart/post", [IndexController::class, "postCart"])->name('posts.cart');
     Route::post("stock/post/{id}", [CartController::class, "stock"])->name('stock.post');
+
+    //transaksi
+    Route::post("transaksi/post", [IndexController::class, "postTransaksi"])->name('posts.transaksi');
+    Route::get("transaksi/detail/{id_transaksi}", [TransaksiUsersController::class, "detail"])->name('transaksi.detail');
 });
 
 

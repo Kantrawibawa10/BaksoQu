@@ -16,8 +16,8 @@
                     @php
                         $transaksi = App\Models\Transactions::where('id_users', auth()->user()->id)->count();
                     @endphp
-                    <a class="nav-link cart-container me-3 {{ Route::is('transaksi.index') ? 'text-warning' : '' }}" href="{{ route('transaksi.index') }}">
-                        Transaksi Anda<span class="notif-keranjang">{{ $transaksi ?? 0 }}</span>
+                    <a class="nav-link cart-container me-3 {{ Route::is('transaksi.index', 'transaksi.detail') ? 'text-warning' : '' }}" href="{{ route('transaksi.index') }}">
+                        Transaksi Anda <span class="notif-keranjang mx-1">{{ $transaksi ?? 0 }}</span>
                     </a>
                 @endauth
                 <a class="nav-link {{ Route::is('kontak') ? 'text-warning' : '' }}" href="{{ route('kontak') }}">Kontak Kami</a>

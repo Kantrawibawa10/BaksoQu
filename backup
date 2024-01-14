@@ -1,0 +1,161 @@
+// set interval payment 1 detik
+<script>
+    var targetDate;
+    var timerInterval;
+
+    // Function to start or reset the timer
+    function startTimer() {
+        // Set the target date to 1 second from now for testing
+        targetDate = new Date();
+        targetDate.setSeconds(targetDate.getSeconds() + 1);
+
+        // Update the timer every second
+        timerInterval = setInterval(updateTimer, 1000);
+
+        // Hide the reset button
+        document.getElementById('resetButton').style.display = 'none';
+
+        // Show the payment buttons
+        document.getElementById('briButton').style.display = 'block';
+        document.getElementById('bcaButton').style.display = 'block';
+    }
+
+    // Function to update the timer
+    function updateTimer() {
+        // Get the current date and time
+        var currentDate = new Date();
+
+        // Calculate the remaining time
+        var timeDifference = targetDate - currentDate;
+
+        // Check if the target date has passed
+        if (timeDifference <= 0) {
+            clearInterval(timerInterval); // Stop the timer
+            document.getElementById('timer').innerHTML = "Expired";
+
+            // Change background color to danger
+            document.getElementById('timerContainer').classList.add('bg-danger');
+
+            // Hide the reset button
+            document.getElementById('resetButton').style.display = 'block';
+
+            // Hide the payment buttons
+            document.getElementById('briButton').style.display = 'none';
+            document.getElementById('bcaButton').style.display = 'none';
+        } else {
+            // Calculate remaining hours, minutes, and seconds
+            var hours = Math.floor(timeDifference / (1000 * 60 * 60));
+            var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            // Format the time and update the HTML
+            document.getElementById('timer').innerHTML = hours + "h " + minutes + "m " + seconds + "s";
+        }
+    }
+
+    // Function to reset the timer
+    function resetTimer() {
+        clearInterval(timerInterval); // Stop the current timer
+        startTimer(); // Start a new timer
+
+        // Remove background color
+        document.getElementById('timerContainer').classList.remove('bg-danger');
+
+        // Hide the reset button
+        document.getElementById('resetButton').style.display = 'none';
+
+        // Show the payment buttons
+        document.getElementById('briButton').style.display = 'block';
+        document.getElementById('bcaButton').style.display = 'block';
+    }
+
+    // Function to handle payment button click
+    function handlePayment(bank) {
+        alert('Payment initiated for ' + bank);
+    }
+
+    // Start the timer when the page loads
+    window.onload = startTimer;
+</script>
+
+
+
+// set interval payment 1x24 jam
+<script>
+    var targetDate;
+    var timerInterval;
+
+    // Function to start or reset the timer
+    function startTimer() {
+        // Set the target date to 1x24 hours from now
+        targetDate = new Date();
+        targetDate.setHours(targetDate.getHours() + 24);
+
+        // Update the timer every second
+        timerInterval = setInterval(updateTimer, 1000);
+
+        // Hide the reset button
+        document.getElementById('resetButton').style.display = 'none';
+
+        // Show the payment buttons
+        document.getElementById('briButton').style.display = 'block';
+        document.getElementById('bcaButton').style.display = 'block';
+    }
+
+    // Function to update the timer
+    function updateTimer() {
+        // Get the current date and time
+        var currentDate = new Date();
+
+        // Calculate the remaining time
+        var timeDifference = targetDate - currentDate;
+
+        // Check if the target date has passed
+        if (timeDifference <= 0) {
+            clearInterval(timerInterval); // Stop the timer
+            document.getElementById('timer').innerHTML = "Expired";
+
+            // Change background color to danger
+            document.getElementById('timerContainer').classList.add('bg-danger');
+
+            // Hide the reset button
+            document.getElementById('resetButton').style.display = 'block';
+
+            // Hide the payment buttons
+            document.getElementById('briButton').style.display = 'none';
+            document.getElementById('bcaButton').style.display = 'none';
+        } else {
+            // Calculate remaining hours, minutes, and seconds
+            var hours = Math.floor(timeDifference / (1000 * 60 * 60));
+            var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            // Format the time and update the HTML
+            document.getElementById('timer').innerHTML = hours + "h " + minutes + "m " + seconds + "s";
+        }
+    }
+
+    // Function to reset the timer
+    function resetTimer() {
+        clearInterval(timerInterval); // Stop the current timer
+        startTimer(); // Start a new timer
+
+        // Remove background color
+        document.getElementById('timerContainer').classList.remove('bg-danger');
+
+        // Hide the reset button
+        document.getElementById('resetButton').style.display = 'none';
+
+        // Show the payment buttons
+        document.getElementById('briButton').style.display = 'block';
+        document.getElementById('bcaButton').style.display = 'block';
+    }
+
+    // Function to handle payment button click
+    function handlePayment(bank) {
+        alert('Payment initiated for ' + bank);
+    }
+
+    // Start the timer when the page loads
+    window.onload = startTimer;
+</script>

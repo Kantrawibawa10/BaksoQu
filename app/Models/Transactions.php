@@ -24,5 +24,6 @@ class Transactions extends Model
         'tgl_transaksi',
         'close_transaksi',
         'status',
+        'transfer',
     ];
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Homepage;
 
 use App\Http\Controllers\Controller;
+use App\Models\Transactions;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
@@ -103,6 +104,35 @@ class IndexController extends Controller
         if ($post) {
             toast('Produk berhasil dimasukan kekeranjang','success');
             return redirect()->back();
+        }
+    }
+
+    public function postTransaksi(Request $request)
+    {
+        $id = $request['id'] ? $request['id'] : Transactions::max('id') + 1;
+        $id_transaksi = 'TRX' . str_pad($id, 2, '0', STR_PAD_LEFT) . sprintf('%03d', rand(1, 999));
+
+        $produk = Products::where('kode_produk', $request->kode_produk)->first();
+        $harga  = ceil($produk->harga_produk * $produk->ppn/100) + $produk->harga_produk * $request->qty;
+
+        $post = Transactions::create([
+            'id'              => $id,
+            'id_transaksi'    => $id_transaksi,
+            'id_produk'       => $produk->kode_produk,
+            'nama_produk'     => $produk->nama_produk,
+            'qty'             => $request->qty,
+            'harga_produk'    => $harga,
+            'id_users'        => auth()->user()->id,
+            'nama_pelanggan'  => auth()->user()->nama,
+            'users_acc'       => null,
+            'tgl_transaksi'   => now(),
+            'close_transaksi' => null,
+            'status'          => 'pending',
+        ]);
+
+        if ($post) {
+            toast('Transaksi berhasil dibuat');
+            return redirect()->route('transaksi.detail', $id_transaksi);
         }
     }
 }
