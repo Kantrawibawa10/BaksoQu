@@ -61,4 +61,7 @@ Route::middleware('auth')->group(function(){
 });
 
 
+// API ROUTE DATA
 Route::get('/total-keranjang', [CartController::class, 'getTotal'])->name('cart.total');
+Route::get('/cart-data', [CartController::class, 'getCartData'])->name('cart.data');
+Route::delete('/delete-stock/{id}', [CartController::class, 'hapusStock'])->name('delete.stock');

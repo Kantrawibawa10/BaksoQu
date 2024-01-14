@@ -7,12 +7,29 @@ use App\Models\Products;
 use Illuminate\Http\Request;
 use Response;
 use Auth;
+use View;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\Carts;
 
 class CartController extends Controller
 {
+    public function getCartData()
+    {
+        $cart = Carts::join('products', 'products.kode_produk', '=', 'carts.id_produk')
+            ->where('id_pelanggan', auth()->user()->id)
+            ->orderBy('id', 'DESC')
+            ->select('carts.*', 'products.kategori_produk', 'products.photo', 'harga_produk')
+            ->get();
+
+        if ($cart) {
+            $cartHtml = View::make('data.cart')->with(['cart' => $cart])->render();
+            return response()->json(['cartHtml' => $cartHtml]);
+        }
+
+        return response()->json(['error' => 'Unable to fetch cart data'], 500);
+    }
+
     public function index()
     {
         $data = [
@@ -55,17 +72,14 @@ class CartController extends Controller
         $harga = round($total * $qty);
 
 
-        if($qty == 0){
-            Carts::where('id', $request->id)->delete();
-        }else{
-            Carts::updateOrCreate(
-                ['id' => $request->id],
-                [
-                    'qty'   => $qty,
-                    'harga' => $harga,
-                ]
-            );
-        }
+
+        Carts::updateOrCreate(
+            ['id' => $request->id],
+            [
+                'qty'   => $qty,
+                'harga' => $harga,
+            ]
+        );
 
         return response()->json(['qty' => $qty]);
     }
@@ -88,4 +102,20 @@ class CartController extends Controller
 
         return redirect()->back();
     }
+
+    public function hapusStock($id)
+    {
+        $cart = Carts::find($id);
+
+        if (!$cart) {
+            abort(404);
+        }
+
+        if (!$cart->delete()) {
+            return response()->json(['success' => false, 'message' => 'Hapus produk gagal dilakukan'], 500);
+        }
+
+        return response()->json(['success' => true, 'message' => 'Hapus produk berhasil dilakukan', 'stock' => 0]);
+    }
+
 }

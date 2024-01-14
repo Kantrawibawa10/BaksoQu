@@ -2,7 +2,7 @@
 @section('home')
 @php
     $ppn = $detail->harga_produk * $detail->ppn/100;
-    $total = $detail->harga_produk + $ppn;
+    $detail_total = $detail->harga_produk + $ppn;
 @endphp
 <div class="container mt-3 mb-5">
     <div class="container row justify-content-center align-items-center">
@@ -17,15 +17,15 @@
                     <div class="small mb-1"><i class="bi bi-egg-fried"></i> {{ $detail->kategori_produk ?? 'tidak ada' }}</div>
                     <h1 class="display-5 fw-bolder text-capitalize">{{ $detail->nama_produk ?? 'tidak ada' }}</h1>
                     <div class="fs-5 mb-5">
-                        <h4>Rp. {{ number_format($total) }}</h4>
+                        <h4>Rp. {{ number_format($detail_total) }}</h4>
                     </div>
                     <p class="lead">{!! $detail->deskripsi !!}</p>
                     <div class="">
-                        <button class="btn btn-outline-dark flex-shrink-0" type="button" data-bs-toggle="modal" data-bs-target="#keranjang">
+                        <button class="btn btn-outline-dark flex-shrink-0" type="button" data-bs-toggle="modal" data-bs-target="#keranjang{{ $detail->id }}">
                             <i class="bi-cart-fill me-1"></i>
                             Masukan keranjang
                         </button>
-                        <button class="btn btn-warning flex-shrink-0" type="button" data-bs-toggle="modal" data-bs-target="#beli">
+                        <button class="btn btn-warning flex-shrink-0" type="button" data-bs-toggle="modal" data-bs-target="#beli{{ $detail->id }}">
                             Beli Sekarang
                         </button>
                     </div>
@@ -88,7 +88,7 @@
 
 
 
-<div class="modal fade" id="keranjang" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="keranjang{{ $detail->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md">
       <div class="modal-content">
         <div class="modal-body">
@@ -104,7 +104,8 @@
                                 <br>
                                 <br>
                             </div>
-                            <h6 class="mb-0">Rp. {{ number_format($total) }}</h6>
+                            <h6 class="mb-0">{{ $detail->nama_produk }}</h6>
+                            <h6 class="mb-0">Rp. {{ number_format($detail_total) }}</h6>
                             <label class="text-secondary" style="font-size: 14px;">Stok : {{ $detail->stock }}</label>
                         </div>
                     </div>
@@ -122,7 +123,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="beli" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="beli{{ $detail->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-md">
       <div class="modal-content">
         <div class="modal-body">
@@ -136,7 +137,7 @@
                             <br>
                             <br>
                         </div>
-                        <h6 class="mb-0">Rp. {{ number_format($total) }}</h6>
+                        <h6 class="mb-0">Rp. {{ number_format($detail_total) }}</h6>
                         <label class="text-secondary" style="font-size: 14px;">Stok {{ $detail->stock }}</label>
                     </div>
                 </div>
