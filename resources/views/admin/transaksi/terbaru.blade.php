@@ -45,6 +45,7 @@
                                                 <th>ID Transaksi</th>
                                                 <th>Nama Pelanggan</th>
                                                 <th>Status</th>
+                                                <th>User Acc</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -59,10 +60,13 @@
                                                 </td>
                                                 <td>{{ $data->id_transaksi }}</td>
                                                 <td>{{ $data->nama_pelanggan }}</td>
-                                                <td><span class="badge text-white" style="background: rgb(252, 193, 30);">Pending</span></td>
+                                                <td><span class="badge text-white" style="background: rgb(252, 193, 30);">Pending</span>
+                                                </td><td>{{ $data->user_acc ?? 'Tidak ada' }}</td>
                                                 <td>
                                                     <div class="tooltip-container">
-                                                        <a type="button" class="p-0 ml-1" style="color: rgb(0, 38, 255); font-size: 25px; cursor: pointer;"><ion-icon name="checkmark-done-outline"></ion-icon></a>
+                                                        <a onclick="handleProsesClick('{{ $data->id_transaksi }}')" class="p-0 ml-1 proses" style="color: rgb(0, 38, 255); font-size: 25px; cursor: pointer;">
+                                                            <ion-icon name="checkmark-done-outline"></ion-icon>
+                                                        </a>
                                                         <span class="tooltip-text">Terima Pesanan</span>
                                                     </div>
 
@@ -77,7 +81,7 @@
                                                     </div>
 
                                                     <div class="tooltip-container">
-                                                        <a type="button" class="p-0 ml-1" style="color: rgb(255, 0, 13); font-size: 25px; cursor: pointer;"><ion-icon name="close-outline"></ion-icon></a>
+                                                        <a onclick="handleBatalClick('{{ $data->id_transaksi }}')" class="p-0 ml-1 batal" style="color: rgb(255, 0, 13); font-size: 25px; cursor: pointer;"><ion-icon name="close-outline"></ion-icon></a>
                                                         <span class="tooltip-text">Batalkan Pesanan</span>
                                                     </div>
                                                 </td>
@@ -94,7 +98,6 @@
         </div>
     </section>
 </div>
-
 
 @foreach($terbaru as $item)
     <div class="modal fade" tabindex="-1" role="dialog" id="invoice{{ $item->id_transaksi }}">
@@ -145,7 +148,7 @@
                                     <tr class="table-info">
                                         <td></td>
                                         <td class="text-right"><strong>Total</strong></td>
-                                        <td><strong>Rp 50,000</strong></td>
+                                        <td><strong>Rp. {{ number_format($data->sum('harga_produk')) }}</strong></td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -168,8 +171,6 @@
             </div>
         </div>
     </div>
-
-
 @endforeach
 
 @foreach($terbaru as $item)
@@ -193,38 +194,22 @@
         </div>
     </div>
 </div>
+
+<form id="proses-form-{{ $item->id_transaksi }}" action="{{ route('aprove.transaksi') }}" method="POST" class="d-none">
+    @csrf
+    <input type="hidden" name="id_transaksi" value="{{ $item->id_transaksi }}">
+    <input type="hidden" name="status" value="proses">
+    <input type="hidden" name="aksi" value="Menerima pesanan">
+</form>
+
+<form id="cancel-form-{{ $item->id_transaksi }}" action="{{ route('aprove.transaksi') }}" method="POST" class="d-none">
+    @csrf
+    <input type="hidden" name="id_transaksi" value="{{ $item->id_transaksi }}">
+    <input type="hidden" name="status" value="batal">
+    <input type="hidden" name="aksi" value="Batalkan pesanan">
+</form>
 @endforeach
 
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-<script>
-    document.querySelectorAll('.delete-button').forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-
-                const deleteForm = document.getElementById('deleteForm');
-                const deleteUrl = deleteForm.getAttribute('action');
-
-                Swal.fire({
-                    title: 'Apakah Anda yakin?',
-                    text: 'Data Anda akan dihapus. Tekan tombol Ya, Hapus untuk melanjutkan',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Ya, Hapus!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Hapus formulir jika SweetAlert dikonfirmasi
-                        deleteForm.style.display = 'none';
-
-                        // Lakukan penghapusan dengan mengirimkan formulir
-                        deleteForm.submit();
-                    }
-                });
-            });
-        });
-</script>
 
 
 <script>
@@ -239,5 +224,51 @@
         document.body.innerHTML = originalContents;
     }
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    function handleProsesClick(id_transaksi) {
+        const form = document.getElementById(`proses-form-${id_transaksi}`);
+        const confirmationMessage = 'Ingin menerima pesanan ini';
+
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: confirmationMessage,
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Terima Pesanan!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the form using JavaScript
+                form.submit();
+            }
+        });
+    }
+
+
+    function handleBatalClick(id_transaksi) {
+        const form = document.getElementById(`cancel-form-${id_transaksi}`);
+        const confirmationMessage = 'Ingin membatalkan pesanan ini';
+
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: confirmationMessage,
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Batalkan Pesanan!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit the form using JavaScript
+                form.submit();
+            }
+        });
+    }
+
+</script>
+
 
 @endsection

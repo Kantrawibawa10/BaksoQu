@@ -44,6 +44,10 @@ Route::middleware('auth')->group(function(){
     Route::get("/transaksi/terbaru", [TransaksiController::class, "terbaru"])->name("transaksi.terbaru");
     Route::get("/transaksi/proses", [TransaksiController::class, "proses"])->name("transaksi.proses");
     Route::get("/transaksi/selesai", [TransaksiController::class, "selesai"])->name("transaksi.selesai");
+    Route::get("/transaksi/batal", [TransaksiController::class, "batal"])->name("transaksi.batal");
+
+    //aksi transaksi
+    Route::post("/transaksi/aprove", [TransaksiController::class, "posts"])->name("aprove.transaksi");
 });
 
 Route::get("/", [IndexController::class, "index"])->name('home');

@@ -262,6 +262,4 @@
     // Start the timer when the page loads
     window.onload = startTimer;
 </script>
-
-
 @endsection

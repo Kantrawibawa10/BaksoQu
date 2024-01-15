@@ -294,7 +294,7 @@
 
                         <li class="menu-header">Transaksi</li>
 
-                        <li class="{{ Route::is('transaksi.terbaru', 'transaksi.proses', 'transaksi.selesai') ? 'active' : '' }} dropdown">
+                        <li class="{{ Route::is('transaksi.terbaru', 'transaksi.proses', 'transaksi.selesai', 'transaksi.batal') ? 'active' : '' }} dropdown">
                             <a href="#" class="nav-link has-dropdown">
                                 <i class="fas fa-th-large"></i>
                                 <span>Pesanan Pelanggan</span>
@@ -308,6 +308,9 @@
                                 </li>
                                 <li class="{{ Route::is('transaksi.selesai') ? 'active' : '' }}">
                                     <a class="nav-link beep beep-sidebar" href="{{ route('transaksi.selesai') }}">Pesanan Selesai</a>
+                                </li>
+                                <li class="{{ Route::is('transaksi.batal') ? 'active' : '' }}">
+                                    <a class="nav-link beep beep-sidebar" href="{{ route('transaksi.batal') }}">Pesanan Dibatalkan</a>
                                 </li>
                             </ul>
                         </li>

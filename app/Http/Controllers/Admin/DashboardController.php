@@ -16,9 +16,13 @@ class DashboardController extends Controller
     public function index()
     {
         $data = [
-            'order'         => Transactions::where('status', 'proses')->get(),
+            'order'         => Transactions::where('status', 'proses')->orWhere('status', 'payment')->get(),
             'penghasilan'   => Transactions::where('status', 'selesai')->get(),
-
+            'transaksi'     => Transactions::join('invoices', 'invoices.id_transaksi', '=', 'transactions.id_transaksi')
+                                ->select('transactions.*', 'invoices.id_invoice')
+                                ->get()
+                                ->unique('id_transaksi'),
+            'dataTransaksi' => Transactions::all()
         ];
 
         return view('admin.dashboard', $data);

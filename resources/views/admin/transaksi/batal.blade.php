@@ -1,5 +1,13 @@
 @extends('layouts.admin')
 @section('body')
+<style>
+    @media print {
+        .no-print {
+            display: none !important;
+        }
+    }
+</style>
+
 <div class="main-content">
     <section class="section">
         <div class="row">
@@ -10,10 +18,10 @@
                     </div>
                     <div class="card-wrap">
                         <div class="card-header">
-                            <h4>Dalam Proses</h4>
+                            <h4>Total Pesanan</h4>
                         </div>
                         <div class="card-body">
-                            {{ $proses->count() }}
+                            {{ $batal->count() }}
                         </div>
                     </div>
                 </div>
@@ -25,7 +33,7 @@
                         <div class="card">
                             <div class="card-header row">
                                 <div class="col-lg-8">
-                                    <h4>Dalam Proses</h4>
+                                    <h4>Pesanan Dibatalkan</h4>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -45,21 +53,21 @@
                                             @php
                                                 $no = 1;
                                             @endphp
-                                            @foreach ($proses as $data)
+                                            @foreach ($batal as $data)
                                             <tr>
                                                 <td class="px-5 col-1">
                                                     {{ $no++ }}
                                                 </td>
                                                 <td>{{ $data->id_transaksi }}</td>
                                                 <td>{{ $data->nama_pelanggan }}</td>
-                                                <td><span class="badge text-white" style="background: rgb(43, 112, 216);">Dalam Proses</span></td>
-                                                <td>{{ $data->user_acc ?? 'Tidak ada' }}</td>
+                                                <td><span class="badge text-white" style="background: rgb(199, 20, 52);">Dibatalkan</span>
+                                                </td><td>{{ $data->user_acc ?? 'Tidak ada' }}</td>
                                                 <td>
                                                     <div class="tooltip-container">
-                                                        <a onclick="handleProsesClick('{{ $data->id_transaksi }}')" class="p-0 ml-1 proses" style="color: rgb(31, 92, 9); font-size: 25px; cursor: pointer;">
+                                                        <a onclick="handleProsesClick('{{ $data->id_transaksi }}')" class="p-0 ml-1 proses" style="color: rgb(0, 38, 255); font-size: 25px; cursor: pointer;">
                                                             <ion-icon name="checkmark-done-outline"></ion-icon>
                                                         </a>
-                                                        <span class="tooltip-text">Selesaikan Pesanan</span>
+                                                        <span class="tooltip-text">Terima Pesanan</span>
                                                     </div>
 
                                                     <div class="tooltip-container">
@@ -86,13 +94,13 @@
     </section>
 </div>
 
-@foreach($proses as $item)
+@foreach($batal as $item)
     <div class="modal fade" tabindex="-1" role="dialog" id="invoice{{ $item->id_transaksi }}">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <!-- Header -->
                 <div class="modal-header">
-                    <h5 class="modal-title">Invoice {{ $item->id_invoice }}</h5>
+                    <h5 class="modal-title">Data Transaksi</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -109,7 +117,6 @@
                             </div>
                             <hr>
                             <div class="mb-3">
-                                <p class="mb-0"><strong>Invoice :</strong> {{ $item->id_invoice }}</p>
                                 <p class="mb-0"><strong>Nama :</strong> {{ $item->nama_pelanggan }}</p>
                                 <p><strong>Tanggal :</strong> {{ \Carbon\Carbon::parse($item->tgl_transaksi)->isoFormat('LL') }}</p>
                             </div>
@@ -130,14 +137,6 @@
                                         <td>Rp. {{ number_format($data->harga_produk) }}</td>
                                     </tr>
                                     @endif
-
-                                    <form id="proses-form-{{ $trx->id_transaksi }}" action="{{ route('aprove.transaksi') }}" method="POST" class="d-none">
-                                        @csrf
-                                        <input type="hidden" name="id_transaksi" value="{{ $trx->id_transaksi }}">
-                                        <input type="hidden" name="id_produk" value="{{ $trx->id_produk }}">
-                                        <input type="hidden" name="status" value="selesai">
-                                        <input type="hidden" name="aksi" value="Selesaikan pesanan">
-                                    </form>
                                     @endforeach
                                 </tbody>
                                 <tfoot>
@@ -169,7 +168,7 @@
     </div>
 @endforeach
 
-@foreach($proses as $item)
+@foreach($batal as $item)
 <div class="modal fade" tabindex="-1" role="dialog" id="bayar{{ $item->id_transaksi }}">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -190,7 +189,16 @@
         </div>
     </div>
 </div>
+
+<form id="proses-form-{{ $item->id_transaksi }}" action="{{ route('aprove.transaksi') }}" method="POST" class="d-none">
+    @csrf
+    <input type="hidden" name="id_transaksi" value="{{ $item->id_transaksi }}">
+    <input type="hidden" name="status" value="proses">
+    <input type="hidden" name="aksi" value="Menerima pesanan">
+</form>
+
 @endforeach
+
 
 
 <script>
@@ -210,7 +218,7 @@
 <script>
     function handleProsesClick(id_transaksi) {
         const form = document.getElementById(`proses-form-${id_transaksi}`);
-        const confirmationMessage = 'Ingin menyeselesaikan pesanan ini';
+        const confirmationMessage = 'Ingin menerima pesanan ini';
 
         Swal.fire({
             title: 'Apakah Anda yakin?',
@@ -219,7 +227,7 @@
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Terima Selesaikan!'
+            confirmButtonText: 'Ya, Terima Pesanan!'
         }).then((result) => {
             if (result.isConfirmed) {
                 // Submit the form using JavaScript
@@ -227,8 +235,7 @@
             }
         });
     }
-
-
-
 </script>
+
+
 @endsection
