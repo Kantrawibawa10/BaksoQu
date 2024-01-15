@@ -19,6 +19,7 @@ class TransaksiUsersController extends Controller
             ->where('id_users', auth()->user()->id)
             ->select('transactions.*', 'products.photo', 'products.kategori_produk')
             ->get()
+            ->unique('id_transaksi'),
         ];
 
         return view('homepage.transaksi.index', $data);
@@ -52,10 +53,11 @@ class TransaksiUsersController extends Controller
             $files = $gambar->transfer ?? null;
         }
 
-        $store = Transactions::updateOrCreate(['id_transaksi' => $request['id_transaksi']], [
-            'transfer'          => $files,
-            'status'            => 'payment',
-            'tgl_transaksi'     => now(),
+        $store = Transactions::where('id_transaksi', $request['id_transaksi'])
+        ->update([
+            'transfer'      => $files,
+            'status'        => 'payment',
+            'tgl_transaksi' => now(),
         ]);
 
         if ($store) {
