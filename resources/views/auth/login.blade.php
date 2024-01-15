@@ -81,11 +81,6 @@
                                     <div class="form-group">
                                         <div class="d-block">
                                             <label for="password" class="control-label">Password</label>
-                                            <div class="float-right">
-                                                <a href="auth-forgot-password.html" class="text-small">
-                                                    Forgot Password?
-                                                </a>
-                                            </div>
                                         </div>
                                         <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" tabindex="2" required>
                                         @error('password')
@@ -112,7 +107,7 @@
                             </div>
                         </div>
                         <div class="mt-5 text-muted text-center">
-                            Belum punya akun? <a href="auth-register.html">Register aja</a>
+                            Belum punya akun? <a href="{{ route('register.index') }}">Register aja</a>
                         </div>
                         <div class="simple-footer">
                             Copyright &copy; BaksoQu 2023

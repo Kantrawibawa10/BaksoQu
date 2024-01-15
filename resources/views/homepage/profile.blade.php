@@ -334,8 +334,8 @@
                                 <div class="row gutters">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
                                         <div class="text-right">
-                                            <button type="button" id="submit" name="submit"
-                                                class="btn btn-secondary">Cancel</button>
+                                            <a href="{{ route('home') }}" id="submit" name="submit"
+                                                class="btn btn-secondary">Cancel</a>
                                             <button type="submit" id="submit" name="submit"
                                                 class="btn btn-primary">Update</button>
                                         </div>

@@ -58,8 +58,8 @@
                                                 <td class="px-5 col-1">
                                                     {{ $no++ }}
                                                 </td>
-                                                <td>{{ $data->id_transaksi }}</td>
-                                                <td>{{ $data->nama_pelanggan }}</td>
+                                                <td class="col-2">{{ $data->id_transaksi }}</td>
+                                                <td class="col-2">{{ $data->nama_pelanggan }}</td>
                                                 <td><span class="badge text-white" style="background: rgb(252, 193, 30);">Pending</span>
                                                 </td><td>{{ $data->user_acc ?? 'Tidak ada' }}</td>
                                                 <td>

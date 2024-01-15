@@ -78,7 +78,7 @@
                                                     class="form-control text-capitalize @error ('nama') is-invalid @enderror"
                                                     name="nama"
                                                     value="{{ $edit->nama ?? old('nama') }}"
-                                                    placeholder="Nama Produk">
+                                                    placeholder="Nama Users">
                                                 @error('nama')
                                                 <small class="form-text text-danger">
                                                     {{ $message }}

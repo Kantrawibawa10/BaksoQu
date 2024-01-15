@@ -14,15 +14,20 @@ class TransaksiUsersController extends Controller
 
     public function index()
     {
-        $data = [
-            'transaksi' => Transactions::join('products', 'products.kode_produk', '=', 'transactions.id_produk')
-            ->where('id_users', auth()->user()->id)
-            ->select('transactions.*', 'products.photo', 'products.kategori_produk')
-            ->get()
-            ->unique('id_transaksi'),
-        ];
+        if(auth()->user()->alamat == null)
+        {
+            return view('homepage.profile');
+        }else{
+            $data = [
+                'transaksi' => Transactions::join('products', 'products.kode_produk', '=', 'transactions.id_produk')
+                ->where('id_users', auth()->user()->id)
+                ->select('transactions.*', 'products.photo', 'products.kategori_produk')
+                ->get()
+                ->unique('id_transaksi'),
+            ];
 
-        return view('homepage.transaksi.index', $data);
+            return view('homepage.transaksi.index', $data);
+        }
     }
 
 

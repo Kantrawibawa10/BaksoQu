@@ -55,9 +55,7 @@ class TransaksiController extends Controller
     public function batal()
     {
         $data = [
-            'batal'       => Transactions::join('invoices', 'invoices.id_transaksi', '=', 'transactions.id_transaksi')
-                                ->select('transactions.*', 'invoices.id_invoice')
-                                ->where('transactions.status', 'batal')
+            'batal'       => Transactions::where('transactions.status', 'batal')
                                 ->get()
                                 ->unique('id_transaksi'),
             'dataTransaksi' => Transactions::where('transactions.status', 'batal')->get()

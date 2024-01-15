@@ -33,15 +33,20 @@ class CartController extends Controller
 
     public function index()
     {
-        $data = [
-            'cart' => Carts::join('products', 'products.kode_produk', '=', 'carts.id_produk')
-            ->where('id_pelanggan', auth()->user()->id)
-            ->orderBy('id', 'DESC')
-            ->select('carts.*', 'products.kategori_produk', 'products.photo', 'harga_produk')
-            ->get(),
-        ];
+        if(auth()->user()->alamat == null)
+        {
+            return view('homepage.profile');
+        }else{
+            $data = [
+                'cart' => Carts::join('products', 'products.kode_produk', '=', 'carts.id_produk')
+                ->where('id_pelanggan', auth()->user()->id)
+                ->orderBy('id', 'DESC')
+                ->select('carts.*', 'products.kategori_produk', 'products.photo', 'harga_produk')
+                ->get(),
+            ];
 
-        return view('homepage.cart', $data);
+            return view('homepage.cart', $data);
+        }
     }
 
     public function getTotal()

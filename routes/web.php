@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\TransaksiController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Homepage\CartController;
 use App\Http\Controllers\Homepage\IndexController;
 use App\Http\Controllers\Homepage\ProfileController;
@@ -27,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::middleware('guest')->group(function(){
     Route::get("/login", [LoginController::class, "index"])->name("login");
+    Route::resource('/register', RegisterController::class);
 });
 
 Route::post("login/post", [LoginController::class, "posts"])->name('posts.login');

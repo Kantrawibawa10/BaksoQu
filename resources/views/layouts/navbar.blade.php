@@ -32,7 +32,7 @@
                 </li>
                 <span class="mx-1"></span>
                 <li class="nav-item">
-                    <a class="nav-link btn btn-primary btn-sm px-3 text-white" href="{{-- route('register') --}}">
+                    <a class="nav-link btn btn-primary btn-sm px-3 text-white" href="{{ route('register.index') }}">
                         <i class="bi bi-box-arrow-in-right"></i> {{ __('Register') }}</a>
                 </li>
                 @endguest
