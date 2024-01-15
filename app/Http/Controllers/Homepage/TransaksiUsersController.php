@@ -29,7 +29,7 @@ class TransaksiUsersController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'transfer'             => 'required|file|max:2000',
+            'transfer'              => 'required|file|max:2000',
         ], [
             'transfer.file'                => 'Masukan Gambar sesuai format: jpeg, bmp, png, gif!',
             'transfer.max'                 => 'Ukuran Gambar maksimal 2000 KB!',

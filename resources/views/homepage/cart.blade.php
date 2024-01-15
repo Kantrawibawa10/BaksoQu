@@ -85,7 +85,15 @@
 
             @if(isset($cart) && $cart->count() > 0)
                 <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded shadow">
-                    <button class="btn btn-success btn-block btn-lg ml-2 pay-button" type="button">Checkout <i class="bi bi-cash"></i></button>
+                    <form action="{{ route('cart.store') }}" method="POST">
+                        @csrf
+                        @foreach ($cart as $data)
+                            <input type="hidden" name="kode_produk[]" value="{{ $data->id_produk }}">
+                            <input type="hidden" name="qty[]" value="{{ $data->qty }}">
+                            <input type="hidden" name="id_cart[]" value="{{ $data->id_cart }}">
+                        @endforeach
+                        <button class="btn btn-success btn-block btn-lg ml-2 pay-button" type="submit" name="submit">Checkout <i class="bi bi-cash"></i></button>
+                    </form>
                 </div>
             @endif
         </div>
@@ -171,7 +179,6 @@
             });
         }
     }
-
 
     function refreshCart() {
         fetch('/cart-data')

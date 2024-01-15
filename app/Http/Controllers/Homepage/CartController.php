@@ -11,6 +11,7 @@ use View;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\Carts;
+use App\Models\Transactions;
 
 class CartController extends Controller
 {
@@ -53,8 +54,41 @@ class CartController extends Controller
 
     public function store(Request $request)
     {
-        //
+        if ($request->has('submit')) {
+            $id_transaksi = 'TRX' . str_pad(Transactions::max('id') + 1, 2, '0', STR_PAD_LEFT) . sprintf('%03d', rand(1, 999));
+
+            $transactions = [];
+
+            foreach ($request->kode_produk as $key => $kode_produk) {
+                $produk = Products::where('kode_produk', $kode_produk)->first();
+                $harga  = ceil($produk->harga_produk * $produk->ppn/100) + $produk->harga_produk * $request->qty[$key];
+
+                $transactions[] = [
+                    'id_transaksi'    => $id_transaksi,
+                    'id_produk'       => $produk->kode_produk,
+                    'nama_produk'     => $produk->nama_produk,
+                    'qty'             => $request->qty[$key], // Sesuaikan dengan input qty[]
+                    'harga_produk'    => $harga,
+                    'id_users'        => auth()->user()->id,
+                    'nama_pelanggan'  => auth()->user()->nama,
+                    'user_acc'        => null,
+                    'tgl_transaksi'   => now(),
+                    'close_transaksi' => null,
+                    'status'          => 'pending',
+                ];
+            }
+
+            Transactions::insert($transactions);
+
+            // Menghapus item dari cart yang di-checkout
+            Carts::whereIn('id_cart', $request->id_cart)->delete();
+
+            toast('Transaksi berhasil dibuat', 'success');
+            return redirect()->route('transaksi.detail', $id_transaksi);
+        }
     }
+
+
 
     public function stock(Request $request, $id)
     {

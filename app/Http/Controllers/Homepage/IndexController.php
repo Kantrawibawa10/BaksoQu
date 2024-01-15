@@ -124,14 +124,14 @@ class IndexController extends Controller
             'harga_produk'    => $harga,
             'id_users'        => auth()->user()->id,
             'nama_pelanggan'  => auth()->user()->nama,
-            'users_acc'       => null,
+            'user_acc'       => null,
             'tgl_transaksi'   => now(),
             'close_transaksi' => null,
             'status'          => 'pending',
         ]);
 
         if ($post) {
-            toast('Transaksi berhasil dibuat');
+            toast('Transaksi berhasil dibuat', 'success');
             return redirect()->route('transaksi.detail', $id_transaksi);
         }
     }
