@@ -177,4 +177,17 @@
 </div>
 @endforeach
 
+
+<script>
+    function printInvoice(invoiceId) {
+        var printContents = document.getElementById('print-content' + invoiceId).innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+    }
+</script>
 @endsection

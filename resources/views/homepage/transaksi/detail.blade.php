@@ -69,6 +69,8 @@
     $PendingTransaction = $transaksi->where('status', 'pending')->first();
     $PaymentTransaction = $transaksi->where('status', 'payment')->first();
     $ProsesTransaction = $transaksi->where('status', 'proses')->first();
+    $SelesaiTransaction = $transaksi->where('status', 'selesai')->first();
+    $BatalTransaction = $transaksi->where('status', 'batal')->first();
 @endphp
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center align-items-center">
@@ -180,12 +182,111 @@
                         <p>Pesanan anda sedang menuju kelokasi anda...</p>
                         <a href="{{ route('transaksi.index') }}" class="btn btn-primary">Kehalaman transaksi</a>
                     </div>
+                @elseif($SelesaiTransaction)
+                    <div class="card-body text-center">
+                        <img src="{{ asset('assets/bank/diterima.gif') }}" alt="" width="300" class="img-fluid mb-0">
+                        <h5 class="h3 text-gray-900 mb-2 mt-2">Horee Pesanan diterima</h5>
+                        <p>Pesanan anda telah diterima dilokasi...</p>
+                        <a type="button" data-bs-toggle="modal" data-bs-target="#invoice{{ $data->id_transaksi }}" class="btn btn-success">Lihat Invoice</a>
+                        <a href="{{ route('transaksi.index') }}" class="btn btn-primary">Kehalaman transaksi</a>
+                    </div>
+                @elseif($BatalTransaction)
+                    <div class="card-body text-center">
+                        <img src="{{ asset('assets/bank/cancel.gif') }}" alt="" width="300" class="img-fluid mb-0">
+                        <h5 class="h3 text-gray-900 mb-2 mt-2">Yahh.. Pesanan dibatalkan</h5>
+                        <p>Pesanan anda telah dibatalkan oleh {{ $BatalTransaction->user_acc }}...</p>
+                        <form id="deleteForm"
+                            action="{{ route('transaksi.destroy', $data->id_transaksi) }}"
+                            method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="button" class="btn btn-danger delete-button" >Hapus Transaksi</button>
+                        </form>
+                        <a href="{{ route('transaksi.index') }}" class="btn btn-primary">Kehalaman transaksi</a>
+                    </div>
                 @endif
             </div>
         </div>
 
     </div>
 </div>
+
+
+@foreach($invoice as $item)
+    <div class="modal fade" tabindex="-1" role="dialog" id="invoice{{ $item->id_transaksi }}">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <!-- Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title">Invoice {{ $item->id_invoice }}</h5>
+                    <button type="button" class="close bg-transparent border-0" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- /Header -->
+
+                <!-- Body -->
+                <div class="modal-body" id="print-content{{ $item->id_transaksi }}">
+                    <div class="row align-items-center justify-content-center bg-white mt-0" style="min-height: 100vh;">
+                        <div>
+                            <div class="text-center mb-3">
+                                <p class="mb-0 pb-0"><strong>BaksoQu</strong></p>
+                                <p>PT. IndoJaya Food</p>
+                            </div>
+                            <hr>
+                            <div class="mb-3">
+                                <p class="mb-0"><strong>Invoice :</strong> {{ $item->id_invoice }}</p>
+                                <p class="mb-0"><strong>Nama :</strong> {{ $item->nama_pelanggan }}</p>
+                                <p><strong>Tanggal :</strong> {{ \Carbon\Carbon::parse($item->tgl_transaksi)->isoFormat('LL') }}</p>
+                            </div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Produk</th>
+                                        <th scope="col">Jumlah</th>
+                                        <th scope="col">Harga</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($dataTransaksi as $trx)
+                                    @if($trx->id_transaksi === $item->id_transaksi)
+                                    <tr>
+                                        <td>{{ $trx->nama_produk }}</td>
+                                        <td>{{ $trx->qty }}x</td>
+                                        <td>Rp. {{ number_format($data->harga_produk) }}</td>
+                                    </tr>
+                                    @endif
+                                    @endforeach
+                                </tbody>
+                                <tfoot>
+                                    <tr class="table-info">
+                                        <td></td>
+                                        <td class="text-right"><strong>Total</strong></td>
+                                        <td><strong>Rp. {{ number_format($data->sum('harga_produk')) }}</strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <hr>
+                            <div class="text-center col-12 align-items-center mt-3">
+                                <p class="mb-0">Terima kasih telah berbelanja</p>
+                                <p class="mb-0">Jl. Mawar No.36, Delod Peken, Kec. Tabanan, <br> Kabupaten Tabanan, Bali 82121</p>
+                                <p class="mb-0">087894561212</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Body -->
+
+                <!-- Footer -->
+                <div class="modal-footer no-print">
+                    <button type="button" class="btn btn-primary no-print" onclick="printInvoice('{{ $item->id_transaksi }}')">Print</button>
+                </div>
+                <!-- /Footer -->
+            </div>
+        </div>
+    </div>
+@endforeach
 
 <script>
     var targetDate;
@@ -261,5 +362,48 @@
 
     // Start the timer when the page loads
     window.onload = startTimer;
+</script>
+
+<script>
+    function printInvoice(invoiceId) {
+        var printContents = document.getElementById('print-content' + invoiceId).innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+
+        window.print();
+
+        document.body.innerHTML = originalContents;
+    }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                const deleteForm = document.getElementById('deleteForm');
+                const deleteUrl = deleteForm.getAttribute('action');
+
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: 'Transaksi anda akan dihapus. Tekan tombol Ya, Hapus untuk melanjutkan',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Hapus!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Hapus formulir jika SweetAlert dikonfirmasi
+                        deleteForm.style.display = 'none';
+
+                        // Lakukan penghapusan dengan mengirimkan formulir
+                        deleteForm.submit();
+                    }
+                });
+            });
+        });
 </script>
 @endsection

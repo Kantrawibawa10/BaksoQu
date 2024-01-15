@@ -74,15 +74,32 @@ class TransaksiUsersController extends Controller
             ->where('id_transaksi', $id_transaksi)
             ->where('id_users', auth()->user()->id)
             ->select('transactions.*', 'products.photo', 'products.kategori_produk')
+            ->get(),
+
+            'invoice'       => Transactions::join('invoices', 'invoices.id_transaksi', '=', 'transactions.id_transaksi')
+            ->select('transactions.*', 'invoices.id_invoice')
+            ->where('transactions.status', 'selesai')
             ->get()
+            ->unique('id_transaksi'),
+
+            'dataTransaksi' => Transactions::where('transactions.status', 'selesai')->get()
         ];
 
         return view('homepage.transaksi.detail', $data);
     }
 
 
-    public function destroy($id)
+    public function destroy($id_transaksi)
     {
-        //
+        $cek = Transactions::where('id_transaksi', $id_transaksi)->first();
+        $filePath = public_path('drive/transfer' . '/' . $cek->transfer);
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                } else {
+                    // Handle the case where the file doesn't exist if necessary
+                }
+        Transactions::where('id_transaksi', $id_transaksi)->delete();
+        toast('Hapus transaksi berhasil dilakukan','success');
+        return redirect()->route('transaksi.index');
     }
 }
